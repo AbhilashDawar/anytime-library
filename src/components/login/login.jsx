@@ -28,10 +28,10 @@ class Login extends React.Component {
         if (user.password === this.state.password) {
           loggedIn = true;
           if (user.type === "ADMIN") {
-            alert("Routing to admin Page");
+            alert("Routing to admin Page...");
             return;
           } else if (user.type === "USER") {
-            alert("Routing to USER Page");
+            alert("Routing to USER Page...");
             return;
           } else {
             alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
