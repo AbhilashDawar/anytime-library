@@ -15,6 +15,14 @@ export default () => {
             firstName: "Test",
             lastName: "User",
             description: "Test User to the application mocking normal user"
+        },
+        {
+            username: "user",
+            password: "user",
+            type: "USER",
+            firstName: "Test",
+            lastName: "User 2",
+            description: "Test User to the application mocking normal user"
         }
     ]
 }
