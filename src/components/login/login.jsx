@@ -34,7 +34,7 @@ class Login extends React.Component {
             alert("Routing to USER Page");
             return;
           } else {
-            alert("Somthing Wrong with the profile.... Pelase Contact the ADMIN at your own risk");
+            alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
             return;
           }
         } else {
