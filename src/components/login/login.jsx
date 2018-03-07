@@ -9,7 +9,8 @@ import appName from '../../config.jsx';
 import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../bottons/submitButton.jsx';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, dic } from 'react-redux';
+import { loginUser } from '../../actions/loginUser.jsx';
 
 class Login extends React.Component {
 
@@ -29,9 +30,12 @@ class Login extends React.Component {
           loggedIn = true;
           if (user.type === "ADMIN") {
             alert("Routing to admin Page...");
+            this.props.history.push("/admin");
+            this.props.loginUser(user);
             return;
           } else if (user.type === "USER") {
             alert("Routing to USER Page...");
+            this.props.loginUser(user);
             return;
           } else {
             alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
@@ -88,18 +92,25 @@ class Login extends React.Component {
         </CardText>
         <CardTitle title="Card title" subtitle="Card subtitle" expandable={true} />
         <CardActions>
-          <SubmitButton myClick={this.loginUser} />
-          <CancelButton myClick={this.logoutUser} />
+          <SubmitButton chosenName="Submit" whenClicked={this.loginUser} />
+          <CancelButton chosenName="Cancel" whenClicked={this.logoutUser} />
         </CardActions>
       </Card>
     );
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     users: state.users
   };
-}
+};
 
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = dispatch => ({
+  loginUser: (user) => dispatch(loginUser(user))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

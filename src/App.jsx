@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import './App.css';
 import Header from './components/header/header.jsx';
 import Login from './components/login/login.jsx';
+import Admin from './containers/admin/admin.jsx';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Header} />
             <Route path="/login" component={Login} />
+            <Route path="/admin" component={Admin} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>

@@ -5,7 +5,12 @@ import * as colors from 'material-ui/styles/colors';
 export default class CancelButton extends React.Component {
     render() {
         return (
-            <RaisedButton backgroundColor={colors.green900} label="Submit" onClick={this.props.myClick} />
+            <RaisedButton
+                label={this.props.chosenName}
+                onClick={this.props.whenClicked}
+                backgroundColor={colors.green900}
+                style={{ margin: '5px 5px' }}
+            />
         )
     }
 }
