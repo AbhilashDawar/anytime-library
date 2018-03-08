@@ -21,7 +21,7 @@ class Admin extends React.Component {
         console.log("ADMIN->", this.props.activeUser)
         return (
             <div>
-                <Header />
+                <Header nameOfUser={this.props.activeUser.firstName} />
                 You are in admin page.
             </div>
         );

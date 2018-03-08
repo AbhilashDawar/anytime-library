@@ -11,6 +11,7 @@ import './App.css';
 import Header from './components/header/header.jsx';
 import Login from './components/login/login.jsx';
 import Admin from './containers/admin/admin.jsx';
+import User from './containers/user/user.jsx';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -19,9 +20,9 @@ class App extends Component {
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={Header} />
-            <Route path="/login" component={Login} />
-            <Route path="/admin" component={Admin} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/admin" component={Admin} />
+            <Route exact path="/user" component={User} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>

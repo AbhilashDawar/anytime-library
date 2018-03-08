@@ -1,16 +1,13 @@
 import React from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
 import './login.css';
 import appName from '../../config.jsx';
 import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../bottons/submitButton.jsx';
-import { bindActionCreators } from 'redux';
-import { connect, dic } from 'react-redux';
+import { connect } from 'react-redux';
 import { loginUser } from '../../actions/loginUser.jsx';
+import GoogleLogin from 'react-google-login';
 
 class Login extends React.Component {
 
@@ -22,37 +19,38 @@ class Login extends React.Component {
     };
   }
 
-  loginUser = () => {
-    let loggedIn = false;
-    this.props.users.forEach((user, index) => {
-      if (user.username === this.state.username) {
-        if (user.password === this.state.password) {
-          loggedIn = true;
-          if (user.type === "ADMIN") {
-            alert("Routing to admin Page...");
-            this.props.history.push("/admin");
-            this.props.loginUser(user);
-            return;
-          } else if (user.type === "USER") {
-            alert("Routing to USER Page...");
-            this.props.loginUser(user);
-            return;
-          } else {
-            alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
-            return;
-          }
-        } else {
-          alert("Invalid Password!!!");
-          return;
-        }
-      } else if (!loggedIn && index === this.props.users.length - 1) {
-        alert("Invalid Username!!!");
-        return;
-      }
-    })
+  login = (res) => {
+console.log(res)
+
+    // let loggedIn = false;
+    // this.props.users.forEach((user, index) => {
+    //   if (user.username === this.state.username) {
+    //     if (user.password === this.state.password) {
+    //       loggedIn = true;
+    //       if (user.type === "ADMIN") {
+    //         this.props.history.push("/admin");
+    //         this.props.loginUser(user);
+    //         return;
+    //       } else if (user.type === "USER") {
+    //         alert("Routing to USER Page...");
+    //         this.props.loginUser(user);
+    //         return;
+    //       } else {
+    //         alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
+    //         return;
+    //       }
+    //     } else {
+    //       alert("Invalid Password!!!");
+    //       return;
+    //     }
+    //   } else if (!loggedIn && index === this.props.users.length - 1) {
+    //     alert("Invalid Username!!!");
+    //     return;
+    //   }
+    // })
   };
 
-  logoutUser = () => {
+  logout = () => {
     console.log("Logging Out");
   };
 
@@ -75,7 +73,7 @@ class Login extends React.Component {
           title={appName}
           className="loginAppName"
         />
-        <CardText>
+        {/* <CardText>
           <TextField
             hintText="Username"
             floatingLabelText="Username"
@@ -92,9 +90,15 @@ class Login extends React.Component {
         </CardText>
         <CardTitle title="Card title" subtitle="Card subtitle" expandable={true} />
         <CardActions>
-          <SubmitButton chosenName="Submit" whenClicked={this.loginUser} />
-          <CancelButton chosenName="Cancel" whenClicked={this.logoutUser} />
-        </CardActions>
+          <SubmitButton chosenName="Submit" whenClicked={this.login} />
+          <CancelButton chosenName="Cancel" whenClicked={this.logout} />
+        </CardActions> */}
+        <GoogleLogin
+          clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
+          buttonText="Login With Google"
+          onSuccess={this.login}
+          onFailure={this.login}
+        />
       </Card>
     );
   }
