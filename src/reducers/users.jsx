@@ -1,28 +1,39 @@
-export default () => {
-    return [
-        {
-            username: "admin",
-            password: "admin",
-            type: "ADMIN",
-            firstName: "Admin",
-            lastName: "The Super Boss",
-            description: "Admin to the application"
-        },
-        {
-            username: "test",
-            password: "test",
-            type: "USER",
-            firstName: "Test",
-            lastName: "User",
-            description: "Test User to the application mocking normal user"
-        },
-        {
-            username: "user",
-            password: "user",
-            type: "USER",
-            firstName: "Test",
-            lastName: "User 2",
-            description: "Test User to the application mocking normal user"
-        }
-    ]
+import { names } from '../actions/actionIndex.jsx';
+
+let users = [
+    {
+        username: "admin",
+        password: "admin",
+        type: "ADMIN",
+        givenName: "Admin",
+        familyName: "The Super Boss",
+        isGoogleUser: true
+    },
+    {
+        username: "test",
+        password: "test",
+        type: "USER",
+        givenName: "Test",
+        familyName: "User",
+        issuedBooks: [],
+        isGoogleUser: true
+    },
+    {
+        username: "user",
+        password: "user",
+        type: "USER",
+        givenName: "Test",
+        familyName: "User 2",
+        issuedBooks: [],
+        isGoogleUser: true
+    }
+];
+
+export default (state = null, action) => {
+    if (action.type === names.USER_LOGGED_IN) {
+        users.push(action.payload);
+        return users;
+    } else {
+        return users;
+    }
 }

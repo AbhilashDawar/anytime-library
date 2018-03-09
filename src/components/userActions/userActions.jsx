@@ -15,9 +15,7 @@ class Logged extends React.Component {
     };
 
     logout = () => {
-        console.log(this.props);
         this.props.logoutUser();
-        // this.props.history.push("/")
     }
 
     render() {

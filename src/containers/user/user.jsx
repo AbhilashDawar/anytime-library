@@ -5,6 +5,7 @@ import appName from '../../config.jsx';
 // import SubmitButton from '../bottons/submitButton.jsx';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Header from '../../components/header/header';
 
 class User extends React.Component {
 
@@ -19,9 +20,7 @@ class User extends React.Component {
     render() {
         console.log(this.props.activeUser);
         return (
-            <div>
-            You are in user page.
-            </div>
+            <Header nameOfUser={this.props.activeUser.givenName} />
         );
     }
 }

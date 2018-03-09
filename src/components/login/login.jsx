@@ -20,38 +20,48 @@ class Login extends React.Component {
   }
 
   login = (res) => {
-console.log(res)
-
-    // let loggedIn = false;
-    // this.props.users.forEach((user, index) => {
-    //   if (user.username === this.state.username) {
-    //     if (user.password === this.state.password) {
-    //       loggedIn = true;
-    //       if (user.type === "ADMIN") {
-    //         this.props.history.push("/admin");
-    //         this.props.loginUser(user);
-    //         return;
-    //       } else if (user.type === "USER") {
-    //         alert("Routing to USER Page...");
-    //         this.props.loginUser(user);
-    //         return;
-    //       } else {
-    //         alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
-    //         return;
-    //       }
-    //     } else {
-    //       alert("Invalid Password!!!");
-    //       return;
-    //     }
-    //   } else if (!loggedIn && index === this.props.users.length - 1) {
-    //     alert("Invalid Username!!!");
-    //     return;
-    //   }
-    // })
+    if (res) {
+      let user = {
+        username: res.profileObj.email,
+        givenName: res.profileObj.givenName,
+        familyName: res.profileObj.familyName,
+        imageUrl: res.profileObj.imageUrl,
+        isGoogleUser: true
+      }
+      this.props.loginUser(user);
+      this.props.history.push("/user");
+    } else {
+      let loggedIn = false;
+      this.props.users.forEach((user, index) => {
+        if (user.username === this.state.username) {
+          if (user.password === this.state.password) {
+            loggedIn = true;
+            if (user.type === "ADMIN") {
+              this.props.history.push("/admin");
+              this.props.loginUser(user);
+              return;
+            } else if (user.type === "USER") {
+              alert("Routing to USER Page...");
+              this.props.loginUser(user);
+              return;
+            } else {
+              alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
+              return;
+            }
+          } else {
+            alert("Invalid Password!!!");
+            return;
+          }
+        } else if (!loggedIn && index === this.props.users.length - 1) {
+          alert("Invalid Username!!!");
+          return;
+        }
+      })
+    }
   };
 
-  logout = () => {
-    console.log("Logging Out");
+  loginError = (res) => {
+    console.log(res);
   };
 
   handleUsernameChange = (e) => {
@@ -73,32 +83,38 @@ console.log(res)
           title={appName}
           className="loginAppName"
         />
-        {/* <CardText>
-          <TextField
-            hintText="Username"
-            floatingLabelText="Username"
-            value={this.state.username}
-            onChange={this.handleUsernameChange}
-          /><br />
-          <TextField
-            hintText="Password"
-            floatingLabelText="Password"
-            type="password"
-            value={this.state.password}
-            onChange={this.handlePasswordChange}
-          /><br />
-        </CardText>
-        <CardTitle title="Card title" subtitle="Card subtitle" expandable={true} />
-        <CardActions>
-          <SubmitButton chosenName="Submit" whenClicked={this.login} />
-          <CancelButton chosenName="Cancel" whenClicked={this.logout} />
-        </CardActions> */}
-        <GoogleLogin
-          clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
-          buttonText="Login With Google"
-          onSuccess={this.login}
-          onFailure={this.login}
-        />
+        <div className="parent">
+          <div className="col-xs-12 col-sm-6 manualLogin">
+            <CardText>
+              <TextField
+                hintText="Username"
+                floatingLabelText="Username"
+                value={this.state.username}
+                onChange={this.handleUsernameChange}
+              /><br />
+              <TextField
+                hintText="Password"
+                floatingLabelText="Password"
+                type="password"
+                value={this.state.password}
+                onChange={this.handlePasswordChange}
+              /><br />
+            </CardText>
+            <CardActions>
+              <SubmitButton chosenName="Submit" whenClicked={this.login} />
+              <CancelButton chosenName="Cancel" whenClicked={this.logout} />
+            </CardActions>
+          </div>
+          <div className="socialLogin">
+            <GoogleLogin
+              clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
+              buttonText="Login With Google"
+              onSuccess={this.login}
+              onFailure={this.loginError}
+              fetchBasicProfile='true'
+            />
+          </div>
+        </div>
       </Card>
     );
   }

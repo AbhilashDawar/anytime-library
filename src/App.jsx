@@ -10,19 +10,35 @@ import { Link } from 'react-router-dom';
 import './App.css';
 import Header from './components/header/header.jsx';
 import Login from './components/login/login.jsx';
-import Admin from './containers/admin/admin.jsx';
+import Admin from './containers/admin';
 import User from './containers/user/user.jsx';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 
 class App extends Component {
+
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={Login} />
-            <Route exact path="/admin" component={Admin} />
-            <Route exact path="/user" component={User} />
+            <Redirect exact from="/" to="/login" />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/admin" render={() => (
+              this.props.activeUser ? (
+                <Admin />
+              ) : (
+                  <Redirect to="/login" />
+                )
+            )} />
+            <Route exact path="/user" render={() => (
+              this.props.activeUser ? (
+                <User />
+              ) : (
+                  <Redirect to="/login" />
+                )
+            )} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
@@ -30,6 +46,12 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    activeUser: state.activeUser
+  };
+};
 
-
-export default App;
+export default connect(
+  mapStateToProps
+)(App);

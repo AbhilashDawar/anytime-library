@@ -28,7 +28,7 @@ class Header extends React.Component {
                 <AppBar
                     title="Anytime Library"
                     iconElementLeft={< IconButton > < NavigationClose /> </IconButton>}
-                    iconElementRight={this.state.activeUser ? < Logged nameOfUser={this.props.nameOfUser} /> : <FlatButton label="Login" href="/login" />}
+                    iconElementRight={this.props.activeUser ? < Logged nameOfUser={this.props.nameOfUser} /> : <FlatButton label="Login" href="/login" />}
                 />
             </div >
         );
