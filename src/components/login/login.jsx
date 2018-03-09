@@ -20,7 +20,8 @@ class Login extends React.Component {
   }
 
   login = (res) => {
-    if (res) {
+    console.log(res)
+    if (res.googleId) {
       let user = {
         username: res.profileObj.email,
         givenName: res.profileObj.givenName,
