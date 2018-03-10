@@ -11,10 +11,11 @@ import './App.css';
 import Header from './components/header/header.jsx';
 import Login from './components/login/login.jsx';
 import Admin from './containers/admin';
-import User from './containers/user/user.jsx';
+import Book from './containers/book';
+import User from './containers/user';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import BookCard from './components/bookCard';
 
 class App extends Component {
 
@@ -35,6 +36,13 @@ class App extends Component {
             <Route exact path="/user" render={() => (
               this.props.activeUser ? (
                 <User />
+              ) : (
+                  <Redirect to="/login" />
+                )
+            )} />
+            <Route exact path="/bookView" render={() => (
+              this.props.activeUser ? (
+                <Book />
               ) : (
                   <Redirect to="/login" />
                 )

@@ -1,0 +1,9 @@
+.bookCard:hover {
+    cursor: pointer;
+}
+
+.bookCard {
+    display: inline-block;
+    width: 20%;
+    margin: 1%;
+}

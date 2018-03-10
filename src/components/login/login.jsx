@@ -7,6 +7,7 @@ import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../bottons/submitButton.jsx';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/loginUser.jsx';
+import { selectBook } from '../../actions/selectBook.jsx';
 import GoogleLogin from 'react-google-login';
 
 class Login extends React.Component {
@@ -123,12 +124,14 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users
+    users: state.users,
+    books: state.books
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: (user) => dispatch(loginUser(user))
+  loginUser: (user) => dispatch(loginUser(user)),
+  selectBook: (book) => dispatch(selectBook(book))
 });
 
 export default connect(

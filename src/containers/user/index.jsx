@@ -6,6 +6,7 @@ import appName from '../../config.jsx';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/header/header';
+import BookCard from '../../components/bookCard';
 
 class User extends React.Component {
 
@@ -18,16 +19,21 @@ class User extends React.Component {
     }
 
     render() {
-        console.log(this.props.activeUser);
         return (
-            <Header nameOfUser={this.props.activeUser.givenName} />
+            <div>
+                <Header nameOfUser={this.props.activeUser.givenName} />
+                {this.props.books.map((book, index) => (
+                    <BookCard {...this.props} key={index} selectedBook={book} />
+                ))}
+            </div>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        activeUser: state.activeUser
+        activeUser: state.activeUser,
+        books: state.books
     };
 }
 
