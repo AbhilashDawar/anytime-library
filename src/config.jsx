@@ -1,5 +1,6 @@
 import React from 'react';
 
-let appName = "Anytime Library";
-
-export default appName;
+export default {
+    appName: 'Anytime Library',
+    issuePeriod: 15
+}

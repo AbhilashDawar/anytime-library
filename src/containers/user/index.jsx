@@ -19,6 +19,7 @@ class User extends React.Component {
     }
 
     render() {
+        console.log(this.props.books)
         return (
             <div>
                 <Header nameOfUser={this.props.activeUser.givenName} />

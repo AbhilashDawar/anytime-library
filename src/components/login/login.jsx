@@ -2,11 +2,12 @@ import React from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import './login.css';
-import appName from '../../config.jsx';
+import config from '../../config.jsx';
 import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../bottons/submitButton.jsx';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/loginUser.jsx';
+import { newUser } from '../../actions/newUser.jsx';
 import { selectBook } from '../../actions/selectBook.jsx';
 import GoogleLogin from 'react-google-login';
 
@@ -21,17 +22,26 @@ class Login extends React.Component {
   }
 
   login = (res) => {
-    console.log(res)
     if (res.googleId) {
-      let user = {
-        username: res.profileObj.email,
-        givenName: res.profileObj.givenName,
-        familyName: res.profileObj.familyName,
-        imageUrl: res.profileObj.imageUrl,
-        isGoogleUser: true
-      }
-      this.props.loginUser(user);
-      this.props.history.push("/user");
+      this.props.users.forEach((user, index) => {
+        if (user.username === res.profileObj.email) {
+          this.props.loginUser(user);
+          this.props.history.push("/user");
+        } else if (index === this.props.users.length - 1) {
+          let user = {
+            username: res.profileObj.email,
+            givenName: res.profileObj.givenName,
+            familyName: res.profileObj.familyName,
+            imageUrl: res.profileObj.imageUrl,
+            type: 'USER',
+            issuedBooks: [],
+            isGoogleUser: true
+          }
+          this.props.newUser(user);
+          this.props.loginUser(user);
+          this.props.history.push("/user");
+        }
+      })
     } else {
       let loggedIn = false;
       this.props.users.forEach((user, index) => {
@@ -82,7 +92,7 @@ class Login extends React.Component {
     return (
       <Card className="card">
         <CardHeader
-          title={appName}
+          title={config.appName}
           className="loginAppName"
         />
         <div className="parent">
@@ -131,6 +141,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   loginUser: (user) => dispatch(loginUser(user)),
+  newUser: (user) => dispatch(newUser(user)),
   selectBook: (book) => dispatch(selectBook(book))
 });
 
