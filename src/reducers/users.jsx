@@ -42,7 +42,20 @@ export default (state = users, action) => {
                     user.issuedBooks.push({
                         id: action.book.id,
                         dateOfIssue: action.dateOfIssue,
-                        dateOfReturn: action.dateOfReturn
+                        dateOfReturn: action.dateOfReturn,
+                        renewed: false
+                    })
+                }
+            })
+            return state;
+        case names.BOOK_RENEWED:
+            state.map(user => {
+                if (user.username === action.user.username) {
+                    user.issuedBooks.forEach((book) => {
+                        if (book.id === action.book.id) {
+                            book.dateOfReturn = action.dateOfReturn;
+                            book.renewed = true;
+                        }
                     })
                 }
             })
