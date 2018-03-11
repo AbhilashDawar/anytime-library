@@ -1,12 +1,13 @@
 import React from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
+import Snackbar from 'material-ui/Snackbar';
+import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
 import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import { issueBook, renewBook, returnBook, updateBookAvailability, updateBookAvailabilityOnReturn } from '../../actions/updateBook.jsx';
 import config from '../../config.jsx';
-import { Rating } from 'material-ui-rating';
 import './book.css';
 
 class Book extends React.Component {
@@ -15,7 +16,9 @@ class Book extends React.Component {
         super(props);
         this.state = {
             bookIssued: false,
-            buttonName: "Get Book"
+            buttonName: "Get Book",
+            showMessage: false,
+            message: ""
         }
         this.checkForIssuedBooks();
     }
@@ -23,9 +26,9 @@ class Book extends React.Component {
     checkForIssuedBooks = () => {
         console.log(this.props.activeUser.issuedBooks)
         if (this.props.activeUser.issuedBooks.length === 0) {
-            // this.setState({
-            //     bookIssued: false
-            // })
+            this.setState({
+                bookIssued: false
+            })
             console.log("1", this.state)
         } else {
             let issueFlag = false;
@@ -50,10 +53,10 @@ class Book extends React.Component {
                     console.log("false")
                     issueFlag = false;
                     // this.state.bookIssued = false;
-                    // this.setState({
-                    //     bookIssued: false,
-                    //     buttonName: "Get Book"
-                    // });
+                    this.setState({
+                        bookIssued: false,
+                        buttonName: "Get Book"
+                    });
                     console.log(this.state)
                     // this.chooseAction();
                     return;
@@ -111,8 +114,15 @@ class Book extends React.Component {
             if (!bookAlreadyRenewed) {
                 originalDateOfReturn.setDate(originalDateOfReturn.getDate() + config.issuePeriod);
                 this.props.renewBook(this.props.selectedBook, this.props.activeUser, originalDateOfReturn);
+                this.setState({
+                    showMessage: true,
+                    message: "Book Renewed Successfully!!!"
+                });
             } else {
-                alert('You can only renew the book once');
+                this.setState({
+                    showMessage: true,
+                    message: "You can only renew the book once!!!"
+                });
             }
         } else {
             let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCoppies));
@@ -127,17 +137,26 @@ class Book extends React.Component {
                     console.log(this.state)
                     this.setState({
                         bookIssued: true,
-                        buttonName: "Request Renewal"
+                        buttonName: "Request Renewal",
+                        showMessage: true,
+                        message: "Book Issued Successfully!!!"
                     }, () => {
-
                         console.log("2", this.state)
-                    })
+                    });
                     // this.checkForIssuedBooks();
                 } else {
-                    alert("Book Not available")
+                    this.setState({
+                        showMessage: true,
+                        message: "Book not available!!!"
+                    });
+                    // alert("Book Not available")
                 }
             } else {
-                alert(`You have already issued ${config.allowedBookdToBorrow} books!\nPlease return a book to get this issued.`);
+                this.setState({
+                    showMessage: true,
+                    message: `You have already issued ${config.allowedBookdToBorrow} books!\nPlease return a book to get this issued.`
+                });
+                // alert(`You have already issued ${config.allowedBookdToBorrow} books!\nPlease return a book to get this issued.`);
             }
         }
     }
@@ -148,10 +167,12 @@ class Book extends React.Component {
         let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCoppies));
         availableCopies++;
         this.props.updateBookAvailabilityOnReturn(this.props.selectedBook, this.props.activeUser, availableCopies, dateOfReturn);
-        // this.setState({
-        //     bookIssued: false,
-        //     buttonName: "Get Book"
-        // })
+        this.setState({
+            bookIssued: false,
+            buttonName: "Get Book",
+            showMessage: true,
+            message: "Book returned successfully!!!"
+        })
         // this.checkForIssuedBooks();
     }
 
@@ -168,6 +189,13 @@ class Book extends React.Component {
                 }
             })
         }
+    }
+
+    handleRequestClose = () => {
+        this.setState({
+            showMessage: false,
+            message: ""
+        })
     }
 
     review = () => {
@@ -218,6 +246,12 @@ class Book extends React.Component {
                         </CardText>
                     </div>
                 </Card>
+                <Snackbar
+                    open={this.state.showMessage}
+                    message={this.state.message}
+                    autoHideDuration={3000}
+                    onRequestClose={this.handleRequestClose}
+                />
             </div>
         );
     }
