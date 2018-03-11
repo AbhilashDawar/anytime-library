@@ -8,7 +8,6 @@ export default (state = books, action) => {
                 ...state,
                 action.payload
             ];
-            break;
         case names.BOOK_AVAILABILITY_UPDATE:
             state.map(book => {
                 if (book.id === action.book.id) {
@@ -17,7 +16,6 @@ export default (state = books, action) => {
                 }
             })
             return state;
-            break;
         case names.BOOK_RETURN_UPDATE:
         // TODDO history to be updated
             let completeFlag = false;
@@ -37,7 +35,6 @@ export default (state = books, action) => {
                 }
             })
             return state;
-            break;
         default:
             return state;
     }

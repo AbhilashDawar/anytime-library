@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Link } from 'react-router-dom';
-import './App.css';
-import Header from './components/header/header.jsx';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Login from './components/login/login.jsx';
 import Admin from './containers/admin';
 import Book from './containers/book';
 import User from './containers/user';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import BookCard from './components/bookCard';
+import './App.css';
 
 class App extends Component {
 

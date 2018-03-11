@@ -36,7 +36,6 @@ export default (state = users, action) => {
                 ...state,
                 action.payload
             ];
-            break;
         case names.BOOK_ISSUED:
             state.map(user => {
                 if (user.username === action.user.username) {
@@ -48,7 +47,6 @@ export default (state = users, action) => {
                 }
             })
             return state;
-            break;
         case names.BOOK_RETURNED:
             let completeFlag = false;
             state.map(user => {
@@ -60,13 +58,12 @@ export default (state = users, action) => {
                             return;
                         }
                     })
-                }
-                if (completeFlag) {
-                    return;
+                    if (completeFlag) {
+                        return;
+                    }
                 }
             })
             return state;
-            break;
         default:
             return state;
     }

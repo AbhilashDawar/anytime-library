@@ -1,15 +1,15 @@
 import React from 'react';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-import './login.css';
-import config from '../../config.jsx';
+import { connect } from 'react-redux';
+import GoogleLogin from 'react-google-login';
 import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../bottons/submitButton.jsx';
-import { connect } from 'react-redux';
 import { loginUser } from '../../actions/loginUser.jsx';
 import { newUser } from '../../actions/newUser.jsx';
 import { selectBook } from '../../actions/selectBook.jsx';
-import GoogleLogin from 'react-google-login';
+import config from '../../config.jsx';
+import './login.css';
 
 class Login extends React.Component {
 

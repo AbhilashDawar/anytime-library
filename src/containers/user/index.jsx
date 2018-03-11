@@ -1,12 +1,10 @@
 import React from 'react';
-import './user.css';
-import appName from '../../config.jsx';
-// import CancelButton from '../bottons/cancelButton.jsx';
-// import SubmitButton from '../bottons/submitButton.jsx';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/header/header';
 import BookCard from '../../components/bookCard';
+// import CancelButton from '../bottons/cancelButton.jsx';
+// import SubmitButton from '../bottons/submitButton.jsx';
+import './user.css';
 
 class User extends React.Component {
 

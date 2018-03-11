@@ -1,8 +1,5 @@
 import React from 'react';
-import './book.css';
-import { appName } from '../../config.jsx';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { bindActionCreators } from 'redux';
+import { Card, CardTitle, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
 import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
@@ -10,6 +7,7 @@ import SubmitButton from '../../components/bottons/submitButton.jsx';
 import { issueBook, returnBook, updateBookAvailability, updateBookAvailabilityOnReturn } from '../../actions/updateBook.jsx';
 import config from '../../config.jsx';
 import { Rating } from 'material-ui-rating';
+import './book.css';
 
 class Book extends React.Component {
 
@@ -25,14 +23,20 @@ class Book extends React.Component {
     checkForIssuedBooks = () => {
         console.log(this.props.activeUser.issuedBooks)
         if (this.props.activeUser.issuedBooks.length === 0) {
-            this.state.bookIssued = false;
+            this.setState({
+                bookIssued: false
+            })
         } else {
             this.props.activeUser.issuedBooks.forEach((detail, index) => {
                 if (detail.id === this.props.selectedBook.id) {
-                    this.state.bookIssued = true;
+                    this.setState({
+                        bookIssued: true
+                    })
                     return;
                 } else if (!this.state.bookIssued && index === this.props.activeUser.issuedBooks.length - 1) {
-                    this.state.bookIssued = false;
+                    this.setState({
+                        bookIssued: false
+                    })
                     return;
                 }
             });
@@ -64,7 +68,9 @@ class Book extends React.Component {
                 this.props.issueBook(this.props.selectedBook, this.props.activeUser, dateOfIssue, dateOfReturn);
                 availableCopies--;
                 this.props.updateBookAvailability(this.props.selectedBook, this.props.activeUser, availableCopies);
-                this.state.bookIssued = true;
+                this.setState({
+                    bookIssued: true
+                })
                 this.checkForIssuedBooks();
             } else {
                 alert("Book Not available")
@@ -78,7 +84,9 @@ class Book extends React.Component {
         let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCoppies));
         availableCopies++;
         this.props.updateBookAvailabilityOnReturn(this.props.selectedBook, this.props.activeUser, availableCopies);
-        this.state.bookIssued = false;
+        this.setState({
+            bookIssued: false
+        })
         this.checkForIssuedBooks();
     }
 

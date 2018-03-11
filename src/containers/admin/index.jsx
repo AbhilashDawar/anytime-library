@@ -1,11 +1,9 @@
 import React from 'react';
-import './admin.css';
-import appName from '../../config.jsx';
+import { connect } from 'react-redux';
 // import CancelButton from '../bottons/cancelButton.jsx';
 // import SubmitButton from '../bottons/submitButton.jsx';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Header from '../../components/header/header';
+import './admin.css';
 
 class Admin extends React.Component {
 
