@@ -15,7 +15,9 @@ let users = [
         type: "USER",
         givenName: "Test",
         familyName: "User",
+        imageUrl: "",
         issuedBooks: [],
+        favoriteGenre: [],
         isGoogleUser: true
     },
     {
@@ -24,7 +26,9 @@ let users = [
         type: "USER",
         givenName: "Test",
         familyName: "User 2",
+        imageUrl: "",
         issuedBooks: [],
+        favoriteGenre: [],
         isGoogleUser: true
     }
 ];

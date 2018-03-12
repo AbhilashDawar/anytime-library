@@ -1,12 +1,14 @@
 import React from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
+import TextField from 'material-ui/TextField/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
+import Popup from 'react-popup';
 import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
-import { issueBook, renewBook, returnBook, updateBookAvailability, updateBookAvailabilityOnReturn } from '../../actions/updateBook.jsx';
+import { issueBook, renewBook, returnBook, reviewBook, updateBookAvailability, updateBookAvailabilityOnReturn } from '../../actions/updateBook.jsx';
 import config from '../../config.jsx';
 import './book.css';
 
@@ -18,8 +20,10 @@ class Book extends React.Component {
             bookIssued: false,
             buttonName: "Get Book",
             showMessage: false,
-            message: ""
-        }
+            message: "",
+            reviewComment: "",
+            reviewRating: 0
+        };
         this.checkForIssuedBooks();
     }
 
@@ -173,6 +177,19 @@ class Book extends React.Component {
             showMessage: true,
             message: "Book returned successfully!!!"
         })
+        // let userGivenReview = false;
+        // if (this.props.selectedBook.libraryInfo.reviews.length === 0) {
+        this.review();
+        // } else {
+        //     this.props.selectedBook.libraryInfo.reviews.forEach((r, index) => {
+        //         if (r.user.username === this.props.activeUser.username) {
+        //             userGivenReview = true;
+        //             return;
+        //         } else if (!userGivenReview && index === this.props.selectedBook.libraryInfo.reviews.length - 1) {
+        //             this.review();
+        //         }
+        //     })
+        // }
         // this.checkForIssuedBooks();
     }
 
@@ -198,12 +215,83 @@ class Book extends React.Component {
         })
     }
 
+    handleCommentChange = (event) => {
+        // this.state.reviewComment = event.target.value;
+        // this.forceUpdate();
+        this.setState({
+            reviewComment: event.target.value
+        });
+    }
+
+    handleRatingChange = (rating) => {
+        // this.state.reviewRating = rating;
+        // this.forceUpdate();
+        this.setState({
+            reviewRating: rating
+        });
+    }
+
+    saveRating = () => {
+        let review = {
+            comments: this.state.reviewComment,
+            rating: this.state.reviewRating
+        }
+        this.props.reviewBook(this.props.selectedBook, this.props.activeUser, review);
+        this.setState({
+            showMessage: true,
+            message: "Book review saved successfully!!!"
+        })
+    }
+
+    cancelRating = () => {
+        this.setState({
+            reviewComment: "",
+            reviewRating: 0
+        });
+    }
+
     review = () => {
-        console.log("you are reviewing this book.")
+        Popup.create({
+            title: this.props.selectedBook.volumeInfo.title,
+            content: <div>
+                <TextField
+                    hintText="Comments"
+                    floatingLabelText="Comments (optional)"
+                    value={this.state.reviewComment}
+                    onChange={this.handleCommentChange}
+                    multiLine={true}
+                    rows={1}
+                    rowsMax={5}
+                />
+                <br />
+                <Rating
+                    value={0}
+                    max={5}
+                    onChange={this.handleRatingChange}
+                />
+            </div>,
+            buttons: {
+                right: [{
+                    text: 'Cancel',
+                    className: 'danger',
+                    action: () => {
+                        this.cancelRating();
+                        Popup.close();
+                    }
+                }, {
+                    text: 'Save',
+                    className: 'success',
+                    action: () => {
+                        this.saveRating();
+                        Popup.close();
+                    }
+                }]
+            }
+        });
     }
 
     print = () => {
-        console.log(this.props.activeUser)
+        console.log(this.state)
     }
 
     render() {
@@ -228,6 +316,7 @@ class Book extends React.Component {
                         </div>
                     </div>
                     <div>
+                        <CardTitle title={`ISBN: ${this.props.selectedBook.volumeInfo.industryIdentifiers[1].identifier}`} />
                         <CardTitle title={this.props.selectedBook.volumeInfo.title} subtitle={<p>Written By: <br />
                             {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
                                 <span key={index}><span>{author}</span><br /></span>
@@ -237,10 +326,10 @@ class Book extends React.Component {
                         </div>
                         <Rating
                             readOnly={true}
-                            value={Math.ceil(this.props.selectedBook.volumeInfo.averageRating)}
+                            value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
                             max={5}
                         />
-                        <SubmitButton chosenName="Review" whenClicked={this.review} />
+                        <Popup />
                         <CardText>
                             {this.props.selectedBook.volumeInfo.description}
                         </CardText>
@@ -268,6 +357,7 @@ const mapDispatchToProps = dispatch => ({
     issueBook: (book, user, dateOfIssue, dateOfReturn) => dispatch(issueBook(book, user, dateOfIssue, dateOfReturn)),
     renewBook: (book, user, dateOfReturn) => dispatch(renewBook(book, user, dateOfReturn)),
     returnBook: (book, user, dateOfReturn) => dispatch(returnBook(book, user, dateOfReturn)),
+    reviewBook: (book, user, review) => dispatch(reviewBook(book, user, review)),
     updateBookAvailability: (book, user, numberOfCoppies, dateOfIssue) => dispatch(updateBookAvailability(book, user, numberOfCoppies, dateOfIssue)),
     updateBookAvailabilityOnReturn: (book, user, numberOfCoppies, dateOfReturn) => dispatch(updateBookAvailabilityOnReturn(book, user, numberOfCoppies, dateOfReturn))
 });

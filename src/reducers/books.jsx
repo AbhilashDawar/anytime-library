@@ -20,7 +20,6 @@ export default (state = books, action) => {
             })
             return state;
         case names.BOOK_RETURN_UPDATE:
-            // TODDO history to be updated
             let completeFlag = false;
             state.map(book => {
                 if (book.id === action.book.id) {
@@ -42,6 +41,23 @@ export default (state = books, action) => {
                     return;
                 }
             })
+            return state;
+        case names.BOOK_REVIEWED:
+            state.map(book => {
+                if (book.id === action.book.id) {
+                    book.libraryInfo.reviews.push({
+                        user: action.user,
+                        comments: action.review.comments,
+                        rating: action.review.rating
+                    })
+                    let oldRating = JSON.parse(JSON.stringify(book.volumeInfo.averageRating));
+                    let oldRatingCount = JSON.parse(JSON.stringify(book.volumeInfo.ratingsCount));
+                    let newRatingCount = JSON.parse(JSON.stringify(book.volumeInfo.ratingsCount));
+                    newRatingCount++;
+                    book.volumeInfo.averageRating = ((oldRating * oldRatingCount) + action.review.rating) / newRatingCount;
+                    book.volumeInfo.ratingsCount = newRatingCount;
+                }
+            });
             return state;
         default:
             return state;

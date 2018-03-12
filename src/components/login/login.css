@@ -2,8 +2,8 @@
     position: absolute;
     left: 25%;
     top: 20%;
+    height: 350px;
     width: 50vw;
-    height: 50vh;
 }
 
 .loginAppName{

@@ -35,6 +35,7 @@ class Login extends React.Component {
             imageUrl: res.profileObj.imageUrl,
             type: 'USER',
             issuedBooks: [],
+            favoriteGenre: [],
             isGoogleUser: true
           }
           this.props.newUser(user);

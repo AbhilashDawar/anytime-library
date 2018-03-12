@@ -11,6 +11,7 @@ import Login from './components/login/login.jsx';
 import Admin from './containers/admin';
 import Book from './containers/book';
 import User from './containers/user';
+import UserProfile from './containers/userProfile';
 import './App.css';
 
 class App extends Component {
@@ -32,6 +33,13 @@ class App extends Component {
             <Route exact path="/user" render={() => (
               this.props.activeUser ? (
                 <User />
+              ) : (
+                  <Redirect to="/login" />
+                )
+            )} />
+            <Route exact path="/userProfile" render={() => (
+              this.props.activeUser ? (
+                <UserProfile />
               ) : (
                   <Redirect to="/login" />
                 )

@@ -28,6 +28,15 @@ export const returnBook = (book, user, dateOfReturn) => {
     }
 };
 
+export const reviewBook = (book, user, review) => {
+    return {
+        type: names.BOOK_REVIEWED,
+        book,
+        user,
+        review
+    }
+};
+
 export const updateBookAvailability = (book, user, numberOfCopies, dateOfIssue) => {
     return {
         type: names.BOOK_AVAILABILITY_UPDATE,

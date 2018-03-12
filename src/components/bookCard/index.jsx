@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Paper from 'material-ui/Paper';
 import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -29,25 +30,27 @@ class BookCard extends React.Component {
             linkStyle = { display: 'none' }
         }
         return (
-            <Card className="bookCard" onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} onClick={this.openBook}>
-                <CardMedia
-                    overlay={<Rating
-                        style={linkStyle}
-                        readOnly={true}
-                        value={Math.ceil(this.props.selectedBook.volumeInfo.averageRating)}
-                        max={5}
-                    />}
-                >
-                    <img src={this.props.selectedBook.volumeInfo.imageLinks.smallThumbnail} style={{ 'height': '300px' }} alt="" />
-                </CardMedia>
-                <CardTitle style={{ height: '100px', overflow: 'hidden' }} title={this.props.selectedBook.volumeInfo.title} />
-                <CardText>
-                    Written By:<br />
-                    {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
-                        <span key={index}><span>{author}</span><br /></span>
-                    ))}
-                </CardText>
-            </Card>
+            <Paper className="bookCard" zDepth={2}>
+                <Card  onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} onClick={this.openBook}>
+                    <CardMedia
+                        overlay={<Rating
+                            style={linkStyle}
+                            readOnly={true}
+                            value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
+                            max={5}
+                        />}
+                    >
+                        <img src={this.props.selectedBook.volumeInfo.imageLinks.smallThumbnail} style={{ 'height': '300px' }} alt="" />
+                    </CardMedia>
+                    <CardTitle style={{ height: '100px', overflow: 'hidden' }} title={this.props.selectedBook.volumeInfo.title} />
+                    <CardText>
+                        Written By:<br />
+                        {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
+                            <span key={index}><span>{author}</span><br /></span>
+                        ))}
+                    </CardText>
+                </Card>
+            </Paper>
         )
     }
 }
