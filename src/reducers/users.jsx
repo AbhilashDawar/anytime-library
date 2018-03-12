@@ -81,6 +81,14 @@ export default (state = users, action) => {
                 }
             })
             return state;
+        case names.USER_PROFILE_SAVED:
+            state.map(user => {
+                if (user.username === action.user.username) {
+                    user.favoriteGenre = action.user.favoriteGenre;
+                    return;
+                }
+            });
+            return state;
         default:
             return state;
     }

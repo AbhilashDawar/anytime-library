@@ -3,6 +3,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { logoutUser } from '../../actions/logoutUser.jsx';
 
 class Logged extends React.Component {
@@ -11,6 +12,10 @@ class Logged extends React.Component {
     state = {
         valueSingle: '3',
     };
+
+    openUserProfile = () => {
+        this.props.history.push("/userProfile");
+    }
 
     logout = () => {
         if (window.gapi) {
@@ -31,7 +36,7 @@ class Logged extends React.Component {
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
             >
-                <MenuItem value="Profile" primaryText="Profile" />
+                <MenuItem value="Profile" primaryText="Profile" onClick={this.openUserProfile} />
                 <MenuItem value="Help" primaryText="Help" />
                 <MenuItem value="Sign Out" primaryText="Sign Out" onClick={this.logout} />
             </IconMenu >
@@ -49,7 +54,7 @@ const mapDispatchToProps = dispatch => ({
     logoutUser: () => dispatch(logoutUser())
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Logged);
+)(Logged));

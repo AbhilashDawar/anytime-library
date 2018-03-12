@@ -56,6 +56,7 @@ class Login extends React.Component {
             } else if (user.type === "USER") {
               alert("Routing to USER Page...");
               this.props.loginUser(user);
+              this.props.history.push("/user");
               return;
             } else {
               alert("Somthing Wrong with the profile... Pelase Contact the ADMIN at your own risk");
