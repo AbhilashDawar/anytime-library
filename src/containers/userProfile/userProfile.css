@@ -1,0 +1,11 @@
+.addGenre:hover {
+    cursor: pointer;
+}
+
+.showSaveButton{
+    display: inline
+}
+
+.hideSavebutton{
+    display: none
+}

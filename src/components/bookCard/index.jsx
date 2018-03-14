@@ -23,16 +23,25 @@ class BookCard extends React.Component {
     }
 
     render() {
-        var linkStyle;
+        var linkStyle, imgStyle;
         if (this.state.hover) {
-            linkStyle = { display: 'inline' }
+            linkStyle = { display: 'inline' };
+            imgStyle = {
+                'height': '300px',
+                opacity: '1'
+            };
         } else {
             linkStyle = { display: 'none' }
+            imgStyle = {
+                'height': '300px',
+                opacity: 0.7
+            }
         }
         return (
             <Paper className="bookCard" zDepth={2}>
-                <Card  onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} onClick={this.openBook}>
+                <Card onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} onClick={this.openBook}>
                     <CardMedia
+                        style={{ 'border': '4px solid black' }}
                         overlay={<Rating
                             style={linkStyle}
                             readOnly={true}
@@ -40,7 +49,7 @@ class BookCard extends React.Component {
                             max={5}
                         />}
                     >
-                        <img src={this.props.selectedBook.volumeInfo.imageLinks.smallThumbnail} style={{ 'height': '300px' }} alt="" />
+                        <img src={this.props.selectedBook.volumeInfo.imageLinks.smallThumbnail} style={imgStyle} alt="" />
                     </CardMedia>
                     <CardTitle style={{ height: '100px', overflow: 'hidden' }} title={this.props.selectedBook.volumeInfo.title} />
                     <CardText>

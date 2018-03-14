@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
+import { ContentAddCircle } from 'material-ui/svg-icons';
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import Header from '../../components/header/header';
@@ -9,7 +10,7 @@ import BookCard from '../../components/bookCard';
 // import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import { profileSave } from '../../actions/updateUser.jsx';
-// import './userProfile.css';
+import './userProfile.css';
 
 class UserProfile extends React.Component {
 
@@ -19,7 +20,8 @@ class UserProfile extends React.Component {
             chipData: this.props.activeUser.favoriteGenre,
             genre: "",
             showMessage: false,
-            message: ""
+            message: "",
+            profileChanged: false
         };
         this.styles = {
             chip: {
@@ -30,13 +32,16 @@ class UserProfile extends React.Component {
                 flexWrap: 'wrap',
             },
         };
-    } 
+    }
 
     handleRequestDelete = (data) => {
         this.chipData = this.state.chipData;
         const chipToDelete = this.chipData.map((chip) => chip).indexOf(data);
         this.chipData.splice(chipToDelete, 1);
-        this.setState({ chipData: this.chipData });
+        this.setState({
+            chipData: this.chipData,
+            profileChanged: true
+        });
     };
 
     handleRequestClose = () => {
@@ -52,21 +57,29 @@ class UserProfile extends React.Component {
         });
     };
 
-    saveGenre = () => {
+    addGenre = () => {
         this.chipData = this.state.chipData;
-        if (this.chipData.indexOf(this.state.genre) >= 0) {
+        if (this.state.genre.length === 0) {
             this.setState({
                 showMessage: true,
-                message: "Genre already added."
+                message: "Cannot add empty string as Genre."
             })
         } else {
-            this.chipData.push(this.state.genre);
-            this.setState({
-                chipData: this.chipData,
-                genre: "",
-                showMessage: true,
-                message: "Genre added successfully!!!"
-            });
+            if (this.chipData.indexOf(this.state.genre) >= 0) {
+                this.setState({
+                    showMessage: true,
+                    message: "Genre already added."
+                })
+            } else {
+                this.chipData.push(this.state.genre);
+                this.setState({
+                    chipData: this.chipData,
+                    genre: "",
+                    showMessage: true,
+                    message: "Genre added successfully!!!",
+                    profileChanged: true
+                });
+            }
         }
     };
 
@@ -109,7 +122,7 @@ class UserProfile extends React.Component {
                             value={this.state.genre}
                             onChange={this.handleGenreChange}
                         />
-                        <SubmitButton chosenName="Add Genre" whenClicked={this.saveGenre} />
+                        <ContentAddCircle className="addGenre" onClick={this.addGenre} />
                     </div>
                     <SubmitButton chosenName="Save Profile" whenClicked={this.saveProfile} />
                 </Card>

@@ -2,6 +2,7 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
+import Paper from 'material-ui/Paper';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { withRouter } from 'react-router-dom';
 import config from '../../config.jsx';
@@ -22,13 +23,15 @@ class Header extends React.Component {
     render() {
         return (
             <div >
-                <AppBar
-                    title={config.appName}
-                    onTitleClick={this.goToHome}
-                    iconElementLeft={< IconButton > < NavigationClose /> </IconButton>}
-                    iconElementRight={this.props.activeUser ? < Logged nameOfUser={this.props.nameOfUser} /> : <FlatButton label="Login" href="/login" />}
-                    style={{ backgroundColor: '#4E342E' }}
-                />
+                <Paper zDepth={2}>
+                    <AppBar
+                        title={config.appName}
+                        onTitleClick={this.goToHome}
+                        iconElementLeft={< IconButton > < NavigationClose /> </IconButton>}
+                        iconElementRight={this.props.activeUser ? < Logged nameOfUser={this.props.nameOfUser} /> : <FlatButton label="Login" href="/login" />}
+                        style={{ backgroundColor: '#00BCD4' }}
+                    />
+                </Paper>
             </div >
         );
     }
