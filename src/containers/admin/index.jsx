@@ -18,6 +18,15 @@ import TextField from 'material-ui/TextField/TextField';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import {
+    Table,
+    TableBody,
+    TableFooter,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+} from 'material-ui/Table';
 
 class Admin extends React.Component {
 
@@ -40,6 +49,24 @@ class Admin extends React.Component {
     fetchTotalBooks = () => {
         let totalNumberOfBooks = 0;
         let issuedBooks = 0;
+        this.props.books.forEach((book) => {
+            totalNumberOfBooks += book.libraryInfo.numberOfCoppies;
+            issuedBooks += book.libraryInfo.issuedTo.length;
+        });
+        this.setState({
+            differentBooks: this.props.books.length,
+            totalBooks: totalNumberOfBooks,
+            booksIssued: issuedBooks
+        });
+    };
+
+    getAllBooks = () => {
+        this.setState({
+            books: this.props.books
+        });
+    };
+
+    getIssuedBooks = () => {
         this.props.books.forEach((book) => {
             totalNumberOfBooks += book.libraryInfo.numberOfCoppies;
             issuedBooks += book.libraryInfo.issuedTo.length;
@@ -90,7 +117,7 @@ class Admin extends React.Component {
                 <Header nameOfUser={this.props.activeUser.givenName} />
                 <div className="adminContainer">
                     <div className="row">
-                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                        <div onClick={this.getAllBooks} className="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
                             <InfoBox
                                 Icon={LibraryBooks}
                                 color={pink600}
@@ -99,7 +126,7 @@ class Admin extends React.Component {
                             />
                         </div>
 
-                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                        <div onClick={this.getAllBooks} className="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
                             <InfoBox
                                 Icon={LibraryBooks}
                                 color={cyan600}
@@ -108,7 +135,7 @@ class Admin extends React.Component {
                             />
                         </div>
 
-                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
+                        <div onClick={this.getIssuedBooks} className="col-xs-12 col-sm-6 col-md-3 col-lg-3 ">
                             <InfoBox
                                 Icon={Book}
                                 color={purple600}
@@ -144,9 +171,47 @@ class Admin extends React.Component {
                         </div>
                         <hr />
                         <div className="row">
-                            {this.state.books.map((book, index) => (
+                            <Table
+                                height={this.state.height}
+                                fixedHeader={this.state.fixedHeader}
+                                fixedFooter={this.state.fixedFooter}
+                                selectable={this.state.selectable}
+                                multiSelectable={this.state.multiSelectable}
+                            >
+                                <TableHeader
+                                    displaySelectAll={this.state.showCheckboxes}
+                                    adjustForCheckbox={this.state.showCheckboxes}
+                                    enableSelectAll={this.state.enableSelectAll}
+                                >
+                                    <TableRow>
+                                        <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{ textAlign: 'center' }}>
+                                            Super Header
+                                        </TableHeaderColumn>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableHeaderColumn tooltip="The ID">ID</TableHeaderColumn>
+                                        <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
+                                        <TableHeaderColumn tooltip="The Status">Status</TableHeaderColumn>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody
+                                    displayRowCheckbox={this.state.showCheckboxes}
+                                    deselectOnClickaway={this.state.deselectOnClickaway}
+                                    showRowHover={this.state.showRowHover}
+                                    stripedRows={this.state.stripedRows}
+                                >
+                                    {this.state.books.map((book, index) => (
+                                        <TableRow key={index}>
+                                            <TableRowColumn>{index}</TableRowColumn>
+                                            <TableRowColumn>{book.volumeInfo.title}</TableRowColumn>
+                                            {/* <TableRowColumn>{book.volumeInfo.}</TableRowColumn> */}
+                                        </TableRow>
+                                    ))}
+                                    {this.state.books.map((book, index) => (
                                 <BookCard key={index} selectedBook={book} />
                             ))}
+                                </TableBody>
+                            </Table>
                         </div>
                     </Card>
                 </div>
