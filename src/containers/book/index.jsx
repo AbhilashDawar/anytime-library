@@ -24,85 +24,39 @@ class Book extends React.Component {
             reviewComment: "",
             reviewRating: 0
         };
+    }
+
+    componentDidMount = () => {
         this.checkForIssuedBooks();
+
     }
 
     checkForIssuedBooks = () => {
-        console.log(this.props.activeUser.issuedBooks)
         if (this.props.activeUser.issuedBooks.length === 0) {
             this.setState({
                 bookIssued: false
             })
-            console.log("1", this.state)
         } else {
             let issueFlag = false;
             this.props.activeUser.issuedBooks.forEach((detail, index) => {
                 if (detail.id === this.props.selectedBook.id) {
-                    console.log("true")
                     issueFlag = true;
-                    // this.state.bookIssued = true;
                     this.setState({
                         bookIssued: true,
                         buttonName: "Request Renewal"
-                    }, () => {
-                        console.log("3333", this.state)
                     });
-                    setTimeout(() => {
-
-                        console.log("asdasd3333", this.state)
-                    }, 1000)
-                    // this.chooseAction();
                     return;
-                } else if (!this.state.bookIssued && index === this.props.activeUser.issuedBooks.length - 1) {
-                    console.log("false")
+                } else if (!issueFlag && index === this.props.activeUser.issuedBooks.length - 1) {
                     issueFlag = false;
-                    // this.state.bookIssued = false;
                     this.setState({
                         bookIssued: false,
                         buttonName: "Get Book"
                     });
-                    console.log(this.state)
-                    // this.chooseAction();
                     return;
                 }
-            })
-            // if (issueFlag) {
-            //     console.log(this.state)
-            //     this.setState({
-            //         bookIssued: true,
-            //         buttonName: "Request Renewal"
-            //     });
-            //     console.log(this.state);
-            //     // this.setState({
-            //     //     bookIssued: true,
-            //     //     buttonName: 'Request Renewal'
-            //     // }, () => {
-            //     //     console.log("3333", this.state)
-            //     // })
-            //     console.log("into true")
-            // } else {
-            //     this.setState({
-            //         bookIssued: false,
-            //         buttonName: "Get Book"
-            //     })
-            //     console.log("into false")
-            // }
+            });
         }
     }
-
-    // chooseAction = () => {
-    //     if (this.state.bookIssued) {
-    //         console.log("REQ")
-    //         this.setState({
-    //             buttonName: "Request Renewal"
-    //         })
-    //     } else {
-    //         console.log("GET")
-    //         this.setState({
-    //             buttonName: "Get Book"
-    //         })
-    //     }
-    // }
 
     getBook = () => {
         if (this.state.bookIssued) {
@@ -138,14 +92,11 @@ class Book extends React.Component {
                     this.props.issueBook(this.props.selectedBook, this.props.activeUser, dateOfIssue, dateOfReturn);
                     availableCopies--;
                     this.props.updateBookAvailability(this.props.selectedBook, this.props.activeUser, availableCopies, dateOfIssue);
-                    console.log(this.state)
                     this.setState({
                         bookIssued: true,
                         buttonName: "Request Renewal",
                         showMessage: true,
                         message: "Book Issued Successfully!!!"
-                    }, () => {
-                        console.log("2", this.state)
                     });
                     // this.checkForIssuedBooks();
                 } else {
@@ -153,14 +104,12 @@ class Book extends React.Component {
                         showMessage: true,
                         message: "Book not available!!!"
                     });
-                    // alert("Book Not available")
                 }
             } else {
                 this.setState({
                     showMessage: true,
                     message: `You have already issued ${config.allowedBookdToBorrow} books!\nPlease return a book to get this issued.`
                 });
-                // alert(`You have already issued ${config.allowedBookdToBorrow} books!\nPlease return a book to get this issued.`);
             }
         }
     }
@@ -176,7 +125,7 @@ class Book extends React.Component {
             buttonName: "Get Book",
             showMessage: true,
             message: "Book returned successfully!!!"
-        })
+        });
         // let userGivenReview = false;
         // if (this.props.selectedBook.libraryInfo.reviews.length === 0) {
         this.review();
@@ -204,7 +153,7 @@ class Book extends React.Component {
                         </CardText>
                     )
                 }
-            })
+            });
         }
     }
 
@@ -212,22 +161,22 @@ class Book extends React.Component {
         this.setState({
             showMessage: false,
             message: ""
-        })
+        });
     }
 
     handleCommentChange = (event) => {
-        // this.state.reviewComment = event.target.value;
-        // this.forceUpdate();
         this.setState({
             reviewComment: event.target.value
+        }, () => {
+            console.log("C")
         });
     }
 
     handleRatingChange = (rating) => {
-        // this.state.reviewRating = rating;
-        // this.forceUpdate();
         this.setState({
             reviewRating: rating
+        }, () => {
+            console.log("R")
         });
     }
 
@@ -238,9 +187,11 @@ class Book extends React.Component {
         }
         this.props.reviewBook(this.props.selectedBook, this.props.activeUser, review);
         this.setState({
+            reviewComment: "",
+            reviewRating: 0,
             showMessage: true,
             message: "Book review saved successfully!!!"
-        })
+        });
     }
 
     cancelRating = () => {
@@ -251,6 +202,7 @@ class Book extends React.Component {
     }
 
     review = () => {
+        console.log(this.state)
         Popup.create({
             title: this.props.selectedBook.volumeInfo.title,
             content: <div>
@@ -265,7 +217,7 @@ class Book extends React.Component {
                 />
                 <br />
                 <Rating
-                    value={0}
+                    value={this.state.reviewRating}
                     max={5}
                     onChange={this.handleRatingChange}
                 />
@@ -291,7 +243,7 @@ class Book extends React.Component {
     }
 
     print = () => {
-        console.log(this.state)
+        console.log(this.state);
     }
 
     render() {

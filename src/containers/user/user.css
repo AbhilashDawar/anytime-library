@@ -1,4 +1,23 @@
 .searchBar{
     background-color: white;
-    align-items: center
+    align-items: flex-start;
+}
+
+.partitionTitile{
+    width: 90%;
+    border-bottom: 2px solid grey;
+}
+
+.booksDisplayCard{
+    margin: 0% 3%;
+}
+
+.right{
+    display: inline;
+    float: right;
+
+}
+
+.left{
+    display: inline;
 }
