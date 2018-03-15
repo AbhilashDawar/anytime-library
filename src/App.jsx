@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import Login from './components/login/login.jsx';
 import Admin from './containers/admin';
 import Book from './containers/book';
+import BookAdminView from './containers/bookAdminView';
 import User from './containers/user';
 import UserProfile from './containers/userProfile';
 import './App.css';
@@ -47,6 +48,13 @@ class App extends Component {
             <Route exact path="/bookView" render={() => (
               this.props.activeUser ? (
                 <Book />
+              ) : (
+                  <Redirect to="/login" />
+                )
+            )} />
+            <Route exact path="/AdminBookView" render={() => (
+              this.props.activeUser ? (
+                <BookAdminView />
               ) : (
                   <Redirect to="/login" />
                 )

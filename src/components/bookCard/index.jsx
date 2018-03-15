@@ -18,8 +18,13 @@ class BookCard extends React.Component {
     }
 
     openBook = () => {
-        this.props.selectBook(this.props.selectedBook);
-        this.props.history.push("/bookView");
+        if (this.props.activeUser.type === "USER") {
+            this.props.selectBook(this.props.selectedBook);
+            this.props.history.push("/bookView");
+        } else if (this.props.activeUser.type === "ADMIN") {
+            this.props.selectBook(this.props.selectedBook);
+            this.props.history.push("/AdminBookView");
+        }
     }
 
     render() {
@@ -66,7 +71,7 @@ class BookCard extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        // selectedBook: state.selectedBook
+        activeUser: state.activeUser
     };
 };
 

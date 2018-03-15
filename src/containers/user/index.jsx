@@ -2,29 +2,34 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Checkbox from 'material-ui/Checkbox';
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
 import Header from '../../components/header/header';
 import BookCard from '../../components/bookCard';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import './user.css';
-import { Menu } from 'material-ui';
-import MenuItem from 'material-ui/MenuItem/MenuItem';
+import config from '../../config.jsx';
 
 class User extends React.Component {
 
     constructor(props) {
         super(props);
+        let allFilters = {};
+        config.filters.forEach((filter) => {
+            allFilters[filter.key] = false;
+        });
         this.state = {
             books: this.props.books,
             issuedBooks: [],
             searchString: "",
-            showFilter: false
+            showFilter: false,
+            filters: allFilters
         };
     }
 
     componentDidMount = () => {
         this.fetchIssuedBooks();
-    }
+    };
 
     fetchIssuedBooks = () => {
         let userIssuedBooks = [];
@@ -70,6 +75,45 @@ class User extends React.Component {
             }
         });
         return flag;
+    };
+
+    applyFilter = () => {
+        let selectedFilters = [];
+        Object.keys(this.state.filters).forEach((filter) => {
+            if (this.state.filters[filter]) {
+                config.filters.forEach((originalFilter) => {
+                    if (originalFilter.key === filter) {
+                        selectedFilters.push(originalFilter.name);
+                        return;
+                    }
+                });
+            }
+        });
+        let booksAfterFilters = [];
+        this.props.books.forEach((book) => {
+            let flag = false;
+            selectedFilters.forEach((filter) => {
+                book.volumeInfo.categories.forEach((category) => {
+                    if (!flag && category.toLowerCase().match(filter.toLowerCase())) {
+                        flag = true;
+                        return;
+                    }
+                });
+                if (flag) {
+                    return;
+                }
+            });
+            if (flag) {
+                booksAfterFilters.push(book);
+            }
+            // if (book.volumeInfo.title.match(this.state.searchString)) {
+            // } else if (this.matchAuthor(book, this.state.searchString)) {
+            //     booksAfterSearch.push(book);
+            // }
+        });
+        this.setState({
+            books: booksAfterFilters
+        });
     }
 
     handleFilterClick = (event) => {
@@ -86,6 +130,14 @@ class User extends React.Component {
             showFilter: false,
         });
     };
+
+    updateCheck(x) {
+        let updatedFilters = this.state.filters;
+        updatedFilters[x] = !updatedFilters[x];
+        this.setState({
+            filters: updatedFilters
+        });
+    }
 
     render() {
         return (
@@ -106,7 +158,7 @@ class User extends React.Component {
                     </div>
                     <div className="right">
                         <RaisedButton
-                            onClick={this.handleClick}
+                            onClick={this.handleFilterClick}
                             label="Click me"
                         />
                         <Popover
@@ -116,12 +168,22 @@ class User extends React.Component {
                             targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                             onRequestClose={this.handleFilterClose}
                         >
-                            <Menu>
-                                <MenuItem primaryText="Refresh" />
-                                <MenuItem primaryText="Help &amp; feedback" />
-                                <MenuItem primaryText="Settings" />
-                                <MenuItem primaryText="Sign out" />
-                            </Menu>
+                            <div className="filterPopover">
+                                <div className="filterCheckboxes">
+                                    {config.filters.map((filter) => {
+                                        return <Checkbox
+                                            style={{ width: '50%' }}
+                                            key={filter.key}
+                                            label={filter.name}
+                                            checked={this.state.filters[filter.key]}
+                                            onCheck={this.updateCheck.bind(this, filter.key)}
+                                        />
+                                    })}
+                                </div>
+                                <div className="filterActions">
+                                    <SubmitButton chosenName="Apply Filter" whenClicked={this.applyFilter} />
+                                </div>
+                            </div>
                         </Popover>
                     </div>
                 </div>

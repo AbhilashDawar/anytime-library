@@ -13,11 +13,19 @@
 }
 
 .right{
-    display: inline;
     float: right;
-
+    display: inline;
 }
 
 .left{
     display: inline;
+}
+
+.filterCheckboxes{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filterPopover{
+    width: 500px;
 }
