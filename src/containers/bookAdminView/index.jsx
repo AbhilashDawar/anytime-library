@@ -77,28 +77,35 @@ class BookAdminView extends React.Component {
     }
 
     deleteConfirmation = () => {
-        Popup.create({
-            title: this.props.selectedBook.volumeInfo.title,
-            content: <div>
-                Are you sure you want to delete the book?
+        if (this.props.selectedBook.libraryInfo.issuedTo.length > 0) {
+            this.setState({
+                showMessage: true,
+                message: "Isseud Book cannot be deleted..."
+            });
+        } else {
+            Popup.create({
+                title: this.props.selectedBook.volumeInfo.title,
+                content: <div>
+                    Are you sure you want to delete the book?
             </div>,
-            buttons: {
-                right: [{
-                    text: 'Cancel',
-                    className: 'danger',
-                    action: () => {
-                        Popup.close();
-                    }
-                }, {
-                    text: 'Delete',
-                    className: 'success',
-                    action: () => {
-                        this.deleteBook();
-                        Popup.close();
-                    }
-                }]
-            }
-        });
+                buttons: {
+                    right: [{
+                        text: 'Cancel',
+                        className: 'danger',
+                        action: () => {
+                            Popup.close();
+                        }
+                    }, {
+                        text: 'Delete',
+                        className: 'success',
+                        action: () => {
+                            this.deleteBook();
+                            Popup.close();
+                        }
+                    }]
+                }
+            });
+        }
     };
 
     deleteBook = () => {
@@ -141,7 +148,7 @@ class BookAdminView extends React.Component {
                     <TableHeader>
                         <TableRow>
                             <TableHeaderColumn colSpan="3" style={{ textAlign: 'center' }}>
-                                List Of Books
+                                Book Issued to List
                             </TableHeaderColumn>
                         </TableRow>
                         <TableRow>
