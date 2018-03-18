@@ -6,6 +6,7 @@ import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Popup from 'react-popup';
+import Divider from 'material-ui/Divider';
 import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
@@ -21,7 +22,6 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-
 import { deleteBook } from '../../actions/book.jsx';
 import { bookAction } from '../../actions/bookAction.jsx';
 
@@ -210,16 +210,29 @@ class BookAdminView extends React.Component {
                             <div className="row">
                                 <CardTitle title={`ISBN: ${this.props.selectedBook.volumeInfo.industryIdentifiers[1] ? this.props.selectedBook.volumeInfo.industryIdentifiers[1].identifier : ""}`} />
                             </div>
+                            <Divider />
                             <div className="row">
                                 <CardTitle title={this.props.selectedBook.volumeInfo.title} subtitle={this.showAuthors()} />
                             </div>
+                            <Divider />
                             <div className="row">
-                                <Rating
-                                    readOnly={true}
-                                    value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
-                                    max={5}
-                                />
+                                <div className="row">
+                                    <CardText>
+                                        <span>Average Ratings: {this.props.selectedBook.volumeInfo.averageRating}</span>
+                                        <br />
+                                        <span>Total Ratings: {this.props.selectedBook.volumeInfo.ratingsCount}</span>
+                                    </CardText>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <Rating
+                                        readOnly={true}
+                                        value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
+                                        max={5}
+                                    />
+                                </div>
                             </div>
+                            <Divider />
                             <div className="row">
                                 <CardText>
                                     {this.props.selectedBook.volumeInfo.description}

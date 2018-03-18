@@ -4,6 +4,10 @@
 
 .bookCard {
     display: inline-block;
-    width: 20%;
+    width: 100%;
     margin: 1%;
+}
+
+.cardWidth {
+    /* max-width: 100%; */
 }

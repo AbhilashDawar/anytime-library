@@ -30,14 +30,19 @@ class Logged extends React.Component {
     }
 
     render() {
+        let linkedStyle;
+        if (this.props.activeUser.type === "ADMIN") {
+            linkedStyle = { display: 'none' }
+        } else {
+            linkedStyle = { display: 'inline' }
+        }
         return (
             <IconMenu
                 iconButtonElement={<FlatButton label={this.props.nameOfUser} style={{ color: "#fff" }} />}
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
             >
-                <MenuItem value="Profile" primaryText="Profile" onClick={this.openUserProfile} />
-                <MenuItem value="Help" primaryText="Help" />
+                <MenuItem style={linkedStyle} value="Profile" primaryText="Profile" onClick={this.openUserProfile} />
                 <MenuItem value="Sign Out" primaryText="Sign Out" onClick={this.logout} />
             </IconMenu >
         );
@@ -46,7 +51,8 @@ class Logged extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        users: state.users
+        users: state.users,
+        activeUser: state.activeUser
     };
 };
 

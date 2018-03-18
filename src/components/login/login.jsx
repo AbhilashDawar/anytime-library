@@ -155,7 +155,7 @@ class Login extends React.Component {
   };
 
   loginError = (res) => {
-    alert("Please ensure the Third-Party Cookies are not blocked!");
+    alert("Please ensure you are connected to Internet and the Third-Party Cookies are not blocked!");
     console.log(res);
   };
 

@@ -31,7 +31,6 @@ export default (state = books, action) => {
             state.map(book => {
                 if (book.id === action.book.id) {
                     book.libraryInfo.numberOfCopies = action.numberOfCopies;
-                    console.log(action.numberOfCopies);
                     book.libraryInfo.issuedTo.push({
                         user: action.user,
                         dateOfIssue: action.dateOfIssue,
@@ -57,8 +56,8 @@ export default (state = books, action) => {
             state.map(book => {
                 if (book.id === action.book.id) {
                     book.libraryInfo.numberOfCopies = action.numberOfCopies;
-                    book.libraryInfo.issuedTo.forEach((user, index) => {
-                        if (user.username === action.user.username) {
+                    book.libraryInfo.issuedTo.forEach((detail, index) => {
+                        if (detail.user.username === action.user.username) {
                             book.libraryInfo.issuedHistory.push({
                                 user: book.libraryInfo.issuedTo.user,
                                 dateOfIssue: book.libraryInfo.issuedTo.dateOfIssue,
@@ -68,7 +67,7 @@ export default (state = books, action) => {
                             completeFlag = true;
                             return;
                         }
-                    })
+                    });
                 }
                 if (completeFlag) {
                     return;

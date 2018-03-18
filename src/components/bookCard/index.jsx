@@ -43,28 +43,30 @@ class BookCard extends React.Component {
             }
         }
         return (
-            <Paper className="bookCard" zDepth={2}>
-                <Card onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} onClick={this.openBook}>
-                    <CardMedia
-                        style={{ 'border': '4px solid black' }}
-                        overlay={<Rating
-                            style={linkStyle}
-                            readOnly={true}
-                            value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
-                            max={5}
-                        />}
-                    >
-                        <img src={this.props.selectedBook.volumeInfo.imageLinks.smallThumbnail} style={imgStyle} alt="" />
-                    </CardMedia>
-                    <CardTitle style={{ height: '100px', overflow: 'hidden' }} title={this.props.selectedBook.volumeInfo.title} />
-                    <CardText>
-                        Written By:<br />
-                        {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
-                            <span key={index}><span>{author}</span><br /></span>
-                        ))}
-                    </CardText>
-                </Card>
-            </Paper>
+            <div className="col-xs-6 col-md-4 col-lg-3 cardWidth">
+                <Paper className="bookCard" zDepth={2}>
+                    <Card onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover} onClick={this.openBook}>
+                        <CardMedia
+                            style={{ 'border': '4px solid black' }}
+                            overlay={<Rating
+                                style={linkStyle}
+                                readOnly={true}
+                                value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
+                                max={5}
+                            />}
+                        >
+                            <img src={this.props.selectedBook.volumeInfo.imageLinks.smallThumbnail} style={imgStyle} alt="" />
+                        </CardMedia>
+                        <CardTitle style={{ height: '100px', overflow: 'hidden' }} title={this.props.selectedBook.volumeInfo.title} />
+                        <CardText>
+                            Written By:<br />
+                            {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
+                                <span key={index}><span>{author}</span><br /></span>
+                            ))}
+                        </CardText>
+                    </Card>
+                </Paper>
+            </div>
         )
     }
 }

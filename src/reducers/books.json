@@ -403,6 +403,8 @@
                 "Fiction / General",
                 "Fiction / Fantasy / General"
             ],
+            "averageRating": 4.5,
+            "ratingsCount": 23,
             "maturityRating": "NOT_MATURE",
             "allowAnonLogging": true,
             "contentVersion": "1.8.7.0.preview.2",

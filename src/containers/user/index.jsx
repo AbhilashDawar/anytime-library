@@ -10,6 +10,7 @@ import config from '../../config.jsx';
 import Header from '../../components/header/header';
 import BookCard from '../../components/bookCard';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
+import BlueButton from '../../components/bottons/blueButton.jsx';
 import './user.css';
 
 class User extends React.Component {
@@ -24,6 +25,8 @@ class User extends React.Component {
             books: this.props.books,
             issuedBooks: [],
             searchString: "",
+            showFilter: false,
+            showRecommendedBooks: false,
             showFilter: false,
             filters: allFilters
         };
@@ -57,7 +60,7 @@ class User extends React.Component {
     search = () => {
         let booksAfterSearch = [];
         this.props.books.forEach((book) => {
-            if (book.volumeInfo.title.match(this.state.searchString)) {
+            if (book.volumeInfo.title.toLowerCase().match(this.state.searchString.toLowerCase())) {
                 booksAfterSearch.push(book);
             } else if (this.matchAuthor(book, this.state.searchString)) {
                 booksAfterSearch.push(book);
@@ -71,7 +74,7 @@ class User extends React.Component {
     matchAuthor = (book, searchString) => {
         let flag = false;
         book.volumeInfo.authors.forEach((author) => {
-            if (author.match(searchString)) {
+            if (author.toLowerCase().match(searchString.toLowerCase())) {
                 flag = true;
                 return;
             }
@@ -127,6 +130,34 @@ class User extends React.Component {
         ));
     }
 
+    showFavBooks = () => {
+        if (this.props.activeUser.favoriteGenre.length === 0) {
+            return <div className="noissuedBooks">No Favorite Genre Set in Profile</div>
+        } else {
+            let booksAfterFilters = [];
+            this.props.books.forEach((book) => {
+                let flag = false;
+                this.props.activeUser.favoriteGenre.forEach((filter) => {
+                    book.volumeInfo.categories.forEach((category) => {
+                        if (!flag && category.toLowerCase().match(filter.toLowerCase())) {
+                            flag = true;
+                            return;
+                        }
+                    });
+                    if (flag) {
+                        return;
+                    }
+                });
+                if (flag) {
+                    booksAfterFilters.push(book);
+                }
+            });
+            return booksAfterFilters.map((book, index) => (
+                <BookCard key={index} selectedBook={book} />
+            ));
+        }
+    }
+
     handleFilterClick = (event) => {
         // This prevents ghost click.
         event.preventDefault();
@@ -150,36 +181,43 @@ class User extends React.Component {
         });
     }
 
+    toggleShowRecommendedBooks = () => {
+        console.log("asdhkjg")
+        this.setState({
+            showRecommendedBooks: !this.state.showRecommendedBooks
+        });
+    }
+
     render() {
+        let recommendedBooksStyle;
+        if (this.state.showRecommendedBooks) {
+            recommendedBooksStyle = { display: 'inline' }
+        } else {
+            recommendedBooksStyle = { display: 'none' }
+        }
         return (
             <div>
                 <Header nameOfUser={this.props.activeUser.givenName} />
                 <Paper className="searchBar">
                     <div className="row">
                         <div className="col-xs-12 col-md-6">
-                            <div className="row">
-                                <div className="col-xs-6">
-                                    <TextField
-                                        hintText="Search for Title/Author"
-                                        floatingLabelText="Search"
-                                        value={this.state.searchString}
-                                        onChange={this.handleSearchTextChange}
-                                        multiLine={true}
-                                        rows={1}
-                                        rowsMax={5}
-                                    />
-                                </div>
-                                <div className="col-xs-6 searchButton">
-                                    <SubmitButton chosenName="Search" whenClicked={this.search} />
-                                </div>
-                            </div>
+                            <TextField
+                                hintText="Search for Title/Author"
+                                floatingLabelText="Search"
+                                value={this.state.searchString}
+                                onChange={this.handleSearchTextChange}
+                                multiLine={true}
+                                fullWidth={true}
+                                rows={1}
+                                rowsMax={5}
+                            />
                         </div>
-                        <div className="col-xs-12 col-md-6">
-                            <div className="col-xs-offset-9 col-xs-3">
-                                <RaisedButton
-                                    onClick={this.handleFilterClick}
-                                    label="Click me"
-                                />
+                        <div className="col-xs-12 col-md-6 searchBarButtons">
+                            <div className="col-xs-6 searchButton">
+                                <SubmitButton chosenName="Search" whenClicked={this.search} />
+                            </div>
+                            <div className="col-xs-6 searchButton">
+                                <BlueButton chosenName="Filter by Genre" whenClicked={this.handleFilterClick} />
                                 <Popover
                                     open={this.state.showFilter}
                                     anchorEl={this.state.anchorEl}
@@ -212,15 +250,27 @@ class User extends React.Component {
                     <div className="partitionTitile">
                         <span>Books in your possession</span>
                     </div>
-                    {this.showMyBooks()}
+                    <div className="row">
+                        {this.showMyBooks()}
+                    </div>
+                </div>
+                <div className="booksDisplayCard">
+                    <div className="partitionTitile">
+                        <div onClick={this.toggleShowRecommendedBooks}><span>Recommended Books</span></div>
+                    </div>
+                    <div className="row">
+                        {this.showFavBooks()}
+                    </div>
                 </div>
                 <div className="booksDisplayCard">
                     <div className="partitionTitile">
                         <span>All Books</span>
                     </div>
-                    {this.state.books.map((book, index) => (
-                        <BookCard key={index} selectedBook={book} />
-                    ))}
+                    <div className="row">
+                        {this.state.books.map((book, index) => (
+                            <BookCard key={index} selectedBook={book} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );

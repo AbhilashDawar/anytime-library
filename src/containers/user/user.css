@@ -38,3 +38,7 @@
     display: grid;
     align-content: end;
 }
+
+.searchBarButtons {
+    display: flex;
+}
