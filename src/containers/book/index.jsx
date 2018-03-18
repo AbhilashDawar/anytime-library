@@ -83,15 +83,16 @@ class Book extends React.Component {
                 });
             }
         } else {
-            let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCoppies));
+            let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCopies));
             if (this.props.activeUser.issuedBooks.length < config.allowedBookdToBorrow) {
                 if (availableCopies > 0) {
                     let dateOfIssue = new Date();
                     let dateOfReturn = new Date();
                     dateOfReturn.setDate(dateOfReturn.getDate() + config.issuePeriod);
                     this.props.issueBook(this.props.selectedBook, this.props.activeUser, dateOfIssue, dateOfReturn);
+                    let expectedReturnDate = dateOfReturn;
                     availableCopies--;
-                    this.props.updateBookAvailability(this.props.selectedBook, this.props.activeUser, availableCopies, dateOfIssue);
+                    this.props.updateBookAvailability(this.props.selectedBook, this.props.activeUser, availableCopies, dateOfIssue, expectedReturnDate);
                     this.setState({
                         bookIssued: true,
                         buttonName: "Request Renewal",
@@ -117,7 +118,7 @@ class Book extends React.Component {
     returnBook = () => {
         let dateOfReturn = new Date();
         this.props.returnBook(this.props.selectedBook, this.props.activeUser, dateOfReturn);
-        let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCoppies));
+        let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCopies));
         availableCopies++;
         this.props.updateBookAvailabilityOnReturn(this.props.selectedBook, this.props.activeUser, availableCopies, dateOfReturn);
         this.setState({
@@ -146,14 +147,16 @@ class Book extends React.Component {
         if (this.state.bookIssued) {
             this.props.activeUser.issuedBooks.forEach((book) => {
                 if (book.id === this.props.selectedBook.id) {
-                    return (
-                        <CardText>
-                            <span>Issued On: {book.dateOfIssue}</span>
-                            <span>Due to Return On: {book.dateOfReturn}</span>
-                        </CardText>
-                    )
+                    return <CardText>
+                        <span>Issued On: {book.dateOfIssue.getDate()}/{book.dateOfIssue.getMonth() + 1}/{book.dateOfIssue.getFullYear()}</span>
+                        <span>Due to Return On: {book.dateOfReturn.getDate()}/{book.dateOfReturn.getMonth() + 1}/{book.dateOfReturn.getFullYear()}</span>
+                    </CardText>
                 }
             });
+        } else {
+            return <CardText>
+                <span>Book not Issued</span>
+            </CardText>
         }
     }
 
@@ -202,7 +205,6 @@ class Book extends React.Component {
     }
 
     review = () => {
-        console.log(this.state)
         Popup.create({
             title: this.props.selectedBook.volumeInfo.title,
             content: <div>
@@ -310,8 +312,8 @@ const mapDispatchToProps = dispatch => ({
     renewBook: (book, user, dateOfReturn) => dispatch(renewBook(book, user, dateOfReturn)),
     returnBook: (book, user, dateOfReturn) => dispatch(returnBook(book, user, dateOfReturn)),
     reviewBook: (book, user, review) => dispatch(reviewBook(book, user, review)),
-    updateBookAvailability: (book, user, numberOfCoppies, dateOfIssue) => dispatch(updateBookAvailability(book, user, numberOfCoppies, dateOfIssue)),
-    updateBookAvailabilityOnReturn: (book, user, numberOfCoppies, dateOfReturn) => dispatch(updateBookAvailabilityOnReturn(book, user, numberOfCoppies, dateOfReturn))
+    updateBookAvailability: (book, user, numberOfCopies, dateOfIssue, expectedReturnDate) => dispatch(updateBookAvailability(book, user, numberOfCopies, dateOfIssue, expectedReturnDate)),
+    updateBookAvailabilityOnReturn: (book, user, numberOfCopies, dateOfReturn) => dispatch(updateBookAvailabilityOnReturn(book, user, numberOfCopies, dateOfReturn))
 });
 
 export default connect(

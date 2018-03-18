@@ -37,12 +37,13 @@ export const reviewBook = (book, user, review) => {
     }
 };
 
-export const updateBookAvailability = (book, user, numberOfCopies, dateOfIssue) => {
+export const updateBookAvailability = (book, user, numberOfCopies, dateOfIssue, expectedReturnDate) => {
     return {
         type: names.BOOK_AVAILABILITY_UPDATE,
         book,
         user,
         dateOfIssue,
+        expectedReturnDate,
         numberOfCopies
     }
 };

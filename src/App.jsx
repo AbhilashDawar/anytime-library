@@ -13,6 +13,7 @@ import Book from './containers/book';
 import BookAdminView from './containers/bookAdminView';
 import User from './containers/user';
 import UserProfile from './containers/userProfile';
+import BookForm from './containers/bookForm';
 import './App.css';
 
 class App extends Component {
@@ -55,6 +56,13 @@ class App extends Component {
             <Route exact path="/AdminBookView" render={() => (
               this.props.activeUser ? (
                 <BookAdminView />
+              ) : (
+                  <Redirect to="/login" />
+                )
+            )} />
+            <Route exact path="/bookForm" render={() => (
+              this.props.activeUser ? (
+                <BookForm />
               ) : (
                   <Redirect to="/login" />
                 )

@@ -25,9 +25,9 @@ class Header extends React.Component {
             <div >
                 <Paper zDepth={2}>
                     <AppBar
-                        title={config.appName}
+                        title={<span className="appName">{config.appName}</span>}
                         onTitleClick={this.goToHome}
-                        iconElementLeft={< IconButton > < NavigationClose /> </IconButton>}
+                        iconElementLeft={<div />}
                         iconElementRight={this.props.activeUser ? < Logged nameOfUser={this.props.nameOfUser} /> : <FlatButton label="Login" href="/login" />}
                         style={{ backgroundColor: '#00BCD4', margin: '0% 0% 1% 0%' }}
                     />

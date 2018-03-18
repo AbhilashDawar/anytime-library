@@ -21,6 +21,15 @@ class Login extends React.Component {
     };
   }
 
+  loginAsAdmin = () => {
+    this.setState({
+      username: "admin",
+      password: "admin"
+    }, () => {
+      this.login({});
+    });
+  }
+
   login = (res) => {
     if (res.googleId) {
       this.props.users.forEach((user, index) => {
@@ -127,6 +136,7 @@ class Login extends React.Component {
               onFailure={this.loginError}
               fetchBasicProfile='true'
             />
+            <button onClick={this.loginAsAdmin}>Admin</button>
           </div>
         </div>
       </Card>

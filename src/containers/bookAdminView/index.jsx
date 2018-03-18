@@ -4,211 +4,234 @@ import TextField from 'material-ui/TextField/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Popup from 'react-popup';
 import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
-import { issueBook, renewBook, returnBook, reviewBook, updateBookAvailability, updateBookAvailabilityOnReturn } from '../../actions/updateBook.jsx';
+import BlueButton from '../../components/bottons/blueButton.jsx';
 import config from '../../config.jsx';
-// import './book.css';
+import './adminBookView.css';
+import {
+    Table,
+    TableBody,
+    TableFooter,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+} from 'material-ui/Table';
+
+import { deleteBook } from '../../actions/book.jsx';
+import { bookAction } from '../../actions/bookAction.jsx';
 
 class BookAdminView extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            bookIssued: false,
-            buttonName: "Get Book",
+            bookInLibrary: false,
             showMessage: false,
             message: "",
-            reviewComment: "",
-            reviewRating: 0
+            tableHeight: '150px'
+        };
+        this.styles = {
+            search: {
+                ISBN: {
+                    width: '20%'
+                },
+                Title: {
+                    width: '40%'
+                },
+                Publisher: {
+                    width: '20%'
+                }
+            }
         };
     }
 
     componentDidMount = () => {
-        // this.checkForIssuedBooks();
+        this.checkForAvailability();
 
     }
 
-    checkForIssuedBooks = () => {
-        if (this.props.activeUser.issuedBooks.length === 0) {
-            this.setState({
-                bookIssued: false
-            })
-        } else {
-            let issueFlag = false;
-            this.props.activeUser.issuedBooks.forEach((detail, index) => {
-                if (detail.id === this.props.selectedBook.id) {
-                    issueFlag = true;
-                    this.setState({
-                        bookIssued: true,
-                        buttonName: "Request Renewal"
-                    });
-                    return;
-                } else if (!issueFlag && index === this.props.activeUser.issuedBooks.length - 1) {
-                    issueFlag = false;
-                    this.setState({
-                        bookIssued: false,
-                        buttonName: "Get Book"
-                    });
-                    return;
-                }
-            });
-        }
-    }
-
-
-    returnBook = () => {
-        let dateOfReturn = new Date();
-        this.props.returnBook(this.props.selectedBook, this.props.activeUser, dateOfReturn);
-        let availableCopies = JSON.parse(JSON.stringify(this.props.selectedBook.libraryInfo.numberOfCoppies));
-        availableCopies++;
-        this.props.updateBookAvailabilityOnReturn(this.props.selectedBook, this.props.activeUser, availableCopies, dateOfReturn);
-        this.setState({
-            bookIssued: false,
-            buttonName: "Get Book",
-            showMessage: true,
-            message: "Book returned successfully!!!"
+    checkForAvailability = () => {
+        this.props.books.forEach((book) => {
+            if (this.props.selectedBook.id === book.id) {
+                this.setState({
+                    bookInLibrary: true
+                });
+                return;
+            }
         });
-        // let userGivenReview = false;
-        // if (this.props.selectedBook.libraryInfo.reviews.length === 0) {
-        this.review();
-        // } else {
-        //     this.props.selectedBook.libraryInfo.reviews.forEach((r, index) => {
-        //         if (r.user.username === this.props.activeUser.username) {
-        //             userGivenReview = true;
-        //             return;
-        //         } else if (!userGivenReview && index === this.props.selectedBook.libraryInfo.reviews.length - 1) {
-        //             this.review();
-        //         }
-        //     })
-        // }
-        // this.checkForIssuedBooks();
+    };
+
+    addBook = () => {
+        this.props.bookAction(true);
+        this.props.history.push("/bookForm");
     }
 
-    showIssuedDetails = () => {
-        if (this.state.bookIssued) {
-            this.props.activeUser.issuedBooks.forEach((book) => {
-                if (book.id === this.props.selectedBook.id) {
-                    return (
-                        <CardText>
-                            <span>Issued On: {book.dateOfIssue}</span>
-                            <span>Due to Return On: {book.dateOfReturn}</span>
-                        </CardText>
-                    )
-                }
-            });
-        }
+    updateBook = () => {
+        this.props.bookAction(false);
+        this.props.history.push("/bookForm");
     }
 
-    handleRequestClose = () => {
-        this.setState({
-            showMessage: false,
-            message: ""
-        });
-    }
-
-    handleCommentChange = (event) => {
-        this.setState({
-            reviewComment: event.target.value
-        }, () => {
-            console.log("C")
-        });
-    }
-
-    handleRatingChange = (rating) => {
-        this.setState({
-            reviewRating: rating
-        }, () => {
-            console.log("R")
-        });
-    }
-
-    saveRating = () => {
-        let review = {
-            comments: this.state.reviewComment,
-            rating: this.state.reviewRating
-        }
-        this.props.reviewBook(this.props.selectedBook, this.props.activeUser, review);
-        this.setState({
-            reviewComment: "",
-            reviewRating: 0,
-            showMessage: true,
-            message: "Book review saved successfully!!!"
-        });
-    }
-
-    cancelRating = () => {
-        this.setState({
-            reviewComment: "",
-            reviewRating: 0
-        });
-    }
-
-    review = () => {
-        console.log(this.state)
+    deleteConfirmation = () => {
         Popup.create({
             title: this.props.selectedBook.volumeInfo.title,
             content: <div>
-                <TextField
-                    hintText="Comments"
-                    floatingLabelText="Comments (optional)"
-                    value={this.state.reviewComment}
-                    onChange={this.handleCommentChange}
-                    multiLine={true}
-                    rows={1}
-                    rowsMax={5}
-                />
-                <br />
-                <Rating
-                    value={this.state.reviewRating}
-                    max={5}
-                    onChange={this.handleRatingChange}
-                />
+                Are you sure you want to delete the book?
             </div>,
             buttons: {
                 right: [{
                     text: 'Cancel',
                     className: 'danger',
                     action: () => {
-                        this.cancelRating();
                         Popup.close();
                     }
                 }, {
-                    text: 'Save',
+                    text: 'Delete',
                     className: 'success',
                     action: () => {
-                        this.saveRating();
+                        this.deleteBook();
                         Popup.close();
                     }
                 }]
             }
         });
+    };
+
+    deleteBook = () => {
+        this.props.deleteBook(this.props.selectedBook);
+        setTimeout(() => {
+            this.props.history.push("/admin");
+        }, 2000);
+        setTimeout(() => {
+            this.setState({
+                showMessage: true,
+                message: "Book Deleted Successfully!!!"
+            });
+        }, 1000);
+        this.setState({
+            showMessage: true,
+            message: "Deleting Book... Please wait"
+        });
+
     }
 
-    print = () => {
-        console.log(this.state);
-    }
+    showAuthors = () => {
+        if (this.props.selectedBook.volumeInfo.authors) {
+            return <p>Written By: <br />
+                {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
+                    <span key={index}><span>{author}</span><br /></span>
+                ))}
+            </p>
+        } else {
+            return <p style={{ color: 'red' }}>Author not available
+            </p>
+        }
+    };
+
+    showIssuedDetails = () => {
+        if (this.state.bookInLibrary) {
+            if (this.props.selectedBook.libraryInfo.issuedTo.length > 0) {
+                return <Table
+                    height={this.state.tableHeight}
+                >
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderColumn colSpan="3" style={{ textAlign: 'center' }}>
+                                List Of Books
+                            </TableHeaderColumn>
+                        </TableRow>
+                        <TableRow>
+                            <TableHeaderColumn>Issued To</TableHeaderColumn>
+                            <TableHeaderColumn>Issued On</TableHeaderColumn>
+                            <TableHeaderColumn>Expected Return</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {this.props.selectedBook.libraryInfo.issuedTo.map((detail, index) => (
+                            <TableRow key={index}>
+                                <TableRowColumn>{detail.user.username}</TableRowColumn>
+                                <TableRowColumn>{detail.dateOfIssue.getDate()}/{detail.dateOfIssue.getMonth() + 1}/{detail.dateOfIssue.getFullYear()}</TableRowColumn>
+                                <TableRowColumn>{detail.expectedReturnDate.getDate()}/{detail.expectedReturnDate.getMonth() + 1}/{detail.expectedReturnDate.getFullYear()}</TableRowColumn>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            }
+        }
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            showMessage: false,
+            message: ""
+        });
+    };
 
     render() {
-        var linkStyle;
-        if (this.state.bookIssued) {
-            linkStyle = { display: 'inline' }
+        var addStyle, deleteStyle;
+        if (this.state.bookInLibrary) {
+            addStyle = { display: 'none' }
+            deleteStyle = { display: 'inline' }
         } else {
-            linkStyle = { display: 'none' }
+            addStyle = { display: 'inline' }
+            deleteStyle = { display: 'none' }
         }
         return (
             <div>
                 <Header nameOfUser={this.props.activeUser.givenName} />
-               THis is admin view
+                <Card className="adminBookViewCard">
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div className="row bookImage">
+                                <img src={this.props.selectedBook.volumeInfo.imageLinks.thumbnail} alt={this.props.selectedBook.volumeInfo.title} />
+                            </div>
+                            <div className="row">
+                                <div className="col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-2" style={addStyle}>
+                                    <SubmitButton chosenName="Add To Library" whenClicked={this.addBook} />
+                                </div>
+                                <div className="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1" style={deleteStyle}>
+                                    <BlueButton chosenName="Update Book" whenClicked={this.updateBook} />
+                                    <CancelButton chosenName="Delete Book" whenClicked={this.deleteConfirmation} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div className="row">
+                                <CardTitle title={`ISBN: ${this.props.selectedBook.volumeInfo.industryIdentifiers[1] ? this.props.selectedBook.volumeInfo.industryIdentifiers[1].identifier : ""}`} />
+                            </div>
+                            <div className="row">
+                                <CardTitle title={this.props.selectedBook.volumeInfo.title} subtitle={this.showAuthors()} />
+                            </div>
+                            <div className="row">
+                                <Rating
+                                    readOnly={true}
+                                    value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
+                                    max={5}
+                                />
+                            </div>
+                            <div className="row">
+                                <CardText>
+                                    {this.props.selectedBook.volumeInfo.description}
+                                </CardText>
+                            </div>
+                            <div className="row">
+                                {this.showIssuedDetails()}
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <Popup />
                 <Snackbar
                     open={this.state.showMessage}
                     message={this.state.message}
                     autoHideDuration={3000}
                     onRequestClose={this.handleRequestClose}
                 />
-            </div>
+            </div >
         );
     }
 }
@@ -216,20 +239,17 @@ class BookAdminView extends React.Component {
 const mapStateToProps = (state) => {
     return {
         activeUser: state.activeUser,
+        books: state.books,
         selectedBook: state.selectedBook
     };
 };
 
 const mapDispatchToProps = dispatch => ({
-    issueBook: (book, user, dateOfIssue, dateOfReturn) => dispatch(issueBook(book, user, dateOfIssue, dateOfReturn)),
-    renewBook: (book, user, dateOfReturn) => dispatch(renewBook(book, user, dateOfReturn)),
-    returnBook: (book, user, dateOfReturn) => dispatch(returnBook(book, user, dateOfReturn)),
-    reviewBook: (book, user, review) => dispatch(reviewBook(book, user, review)),
-    updateBookAvailability: (book, user, numberOfCoppies, dateOfIssue) => dispatch(updateBookAvailability(book, user, numberOfCoppies, dateOfIssue)),
-    updateBookAvailabilityOnReturn: (book, user, numberOfCoppies, dateOfReturn) => dispatch(updateBookAvailabilityOnReturn(book, user, numberOfCoppies, dateOfReturn))
+    deleteBook: (book) => dispatch(deleteBook(book)),
+    bookAction: (value) => dispatch(bookAction(value))
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
-)(BookAdminView);
+)(BookAdminView));

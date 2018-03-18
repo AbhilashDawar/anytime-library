@@ -5,7 +5,7 @@
         "etag": "Rv6BJlseL4Q",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/uQyTDAAAQBAJ",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -92,7 +92,7 @@
         "etag": "FYB9PCQ3pkU",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/ohZ1wcYifLsC",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -185,7 +185,7 @@
         "etag": "Xq0USnxDyA4",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/39iYWTb6n6cC",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -277,84 +277,11 @@
     },
     {
         "kind": "books#volume",
-        "id": "55czBgAAQBAJ",
-        "etag": "hMlBXscZL5A",
-        "selfLink": "https://www.googleapis.com/books/v1/volumes/55czBgAAQBAJ",
-        "libraryInfo": {
-            "numberOfCoppies": 2,
-            "issuedTo": [],
-            "issuedHistory": [],
-            "reviews": []
-        },
-        "volumeInfo": {
-            "title": "Harry Potter and the Chamber of Secrets (Book 2)",
-            "authors": [
-                "Rowling, J.K."
-            ],
-            "publisher": "Pottermore",
-            "publishedDate": "2015-01-17",
-            "description": "In Harry Potter and the Chamber of Secrets, the summer after Harry’s first year at Hogwarts has been his worst summer ever… the Dursleys more distant and horrible than ever before. But just as he’s packing his bags to return to school, a creature named Dobby the house-elf announces that if Harry goes back to Hogwarts, disaster will strike. And it turns out, Dobby is right. Harry and Ron miss the Hogwarts Express, so they fly to school in a blue Ford Anglia, crash landing in the notorious Whomping Willow. Soon other worries accumulate: the outrageously stuck-up new professor Gilderoy Lockhart; a ghost named Moaning Myrtle, who haunts the girls' bathroom; the strange behavior of Ron's little sister, Ginny Weasley; rumors about the &quot;Chamber of Secrets,&quot; a cavern buried deep below Hogwarts; and a magical diary owned by Tom Riddle, a Hogwarts student of long ago. Harry is also shocked to discover that he can speak Parseltongue, the language of snakes - a rare ability that Lord Voldemort also possessed - and that anti-Muggle prejudice exists in the Wizarding world, even affecting Harry's friend Hermione. But all of these seem like minor concerns when someone starts turning Hogwarts students to stone: an evildoer said to be the fearsome Heir of Salazar Slytherin, on of the founders of the school. Could it be Draco Malfoy, Harry's most poisonous rival? Could it be Hagrid whose mysterious past is finally told? Or could it be the one person everyone at Hogwarts most suspects: Harry Potter himself? \u003cbr\u003e",
-            "readingModes": {
-                "text": true,
-                "image": false
-            },
-            "pageCount": 313,
-            "printedPageCount": 313,
-            "printType": "BOOK",
-            "categories": [
-                "Juvenile Fiction / Action & Adventure / General"
-            ],
-            "averageRating": 4.5,
-            "ratingsCount": 2266,
-            "maturityRating": "NOT_MATURE",
-            "allowAnonLogging": false,
-            "contentVersion": "1.1.1.0.preview.2",
-            "imageLinks": {
-                "smallThumbnail": "http://books.google.com/books/content?id=55czBgAAQBAJ&printsec=frontcover&img=1&zoom=5&imgtk=AFLRE70zZ-E_PJ6UAtV7WT5vXHeB7PBfD1kst5fLOBPHlkHmhyT8h1Osu7MySOdwhai9W6vUEyhaTidP-7CMb-tm0MK5T0RVj3JS4He_dn23lGnGboMm1-V1SnwQG6c4Ch9zGS-KupMQ&source=gbs_api",
-                "thumbnail": "http://books.google.com/books/content?id=55czBgAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73AzMfexnNRDx0qO7F1BR9-66weWnDgb3-NKjmlovarZFhgQX9wokb9hvCHK5zOKtskT4E7MI2vvQeryaFUmHn95QEsFOEP5sDJ9ok1W_a2LTUjYZqUNuZtms1gW25mqXtG1fJ0&source=gbs_api"
-            },
-            "language": "en",
-            "previewLink": "http://books.google.co.in/books?id=55czBgAAQBAJ&hl=&source=gbs_api",
-            "infoLink": "https://play.google.com/store/books/details?id=55czBgAAQBAJ&source=gbs_api",
-            "canonicalVolumeLink": "https://market.android.com/details?id=book-55czBgAAQBAJ"
-        },
-        "layerInfo": {
-            "layers": [
-                {
-                    "layerId": "geo",
-                    "volumeAnnotationsVersion": "3"
-                }
-            ]
-        },
-        "saleInfo": {
-            "country": "IN",
-            "saleability": "NOT_FOR_SALE",
-            "isEbook": false
-        },
-        "accessInfo": {
-            "country": "IN",
-            "viewability": "NO_PAGES",
-            "embeddable": false,
-            "publicDomain": false,
-            "textToSpeechPermission": "ALLOWED",
-            "epub": {
-                "isAvailable": true
-            },
-            "pdf": {
-                "isAvailable": true
-            },
-            "webReaderLink": "http://play.google.com/books/reader?id=55czBgAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
-            "accessViewStatus": "NONE",
-            "quoteSharingAllowed": false
-        }
-    },
-    {
-        "kind": "books#volume",
         "id": "B_UuHQAACAAJ",
         "etag": "x/AxxpVRNCw",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/B_UuHQAACAAJ",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -437,7 +364,7 @@
         "etag": "UHiSUEkbHi4",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/7v4VBAAAQBAJ",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -555,7 +482,7 @@
         "etag": "3FmbYw7cnRI",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/WKcaQG7csYAC",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -672,7 +599,7 @@
         "etag": "XDG5uie7auQ",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/m3Yfj-KWgCEC",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -789,7 +716,7 @@
         "etag": "mGu6WJrAXzA",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/hZA7DgAAQBAJ",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -908,7 +835,7 @@
         "id": "IdfWDQAAQBAJ",
         "etag": "rHYJm2tyFgI",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -1029,7 +956,7 @@
         "etag": "na0jmBUtIvw",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/4y4eVOPOhIIC",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -1148,7 +1075,7 @@
         "etag": "nUaCjIZ+NZg",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/Ia5XBAAAQBAJ",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []
@@ -1241,7 +1168,7 @@
         "etag": "OtkgRbH/DI8",
         "selfLink": "https://www.googleapis.com/books/v1/volumes/tEaZK3P0OxIC",
         "libraryInfo": {
-            "numberOfCoppies": 2,
+            "numberOfCopies": 2,
             "issuedTo": [],
             "issuedHistory": [],
             "reviews": []

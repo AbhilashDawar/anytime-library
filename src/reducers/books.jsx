@@ -6,15 +6,48 @@ export default (state = books, action) => {
         case names.BOOK_ADDED:
             return [
                 ...state,
-                action.payload
+                action.book
+            ];
+        case names.BOOK_DELETED:
+            state.map((book, index) => {
+                if (book.id === action.book.id) {
+                    state.splice(index, 1);
+                    return;
+                }
+            });
+            return state;
+        case names.BOOK_UPDATED:
+            state.map((book, index) => {
+                if (book.id === action.book.id) {
+                    state.splice(index, 1);
+                    return;
+                }
+            });
+            return [
+                ...state,
+                action.book
             ];
         case names.BOOK_AVAILABILITY_UPDATE:
             state.map(book => {
                 if (book.id === action.book.id) {
-                    book.libraryInfo.numberOfCoppies = action.numberOfCopies;
+                    book.libraryInfo.numberOfCopies = action.numberOfCopies;
+                    console.log(action.numberOfCopies);
                     book.libraryInfo.issuedTo.push({
                         user: action.user,
-                        dateOfIssue: action.dateOfIssue
+                        dateOfIssue: action.dateOfIssue,
+                        expectedReturnDate: action.expectedReturnDate
+                    });
+                }
+            })
+            return state;
+        case names.BOOK_RENEWED:
+            state.map(book => {
+                if (book.id === action.book.id) {
+                    book.libraryInfo.issuedTo.forEach((detail) => {
+                        if (detail.user.username === action.user.username) {
+                            book.libraryInfo.issuedTo.expectedReturnDate = action.dateOfReturn;
+                            return;
+                        }
                     });
                 }
             })
@@ -23,7 +56,7 @@ export default (state = books, action) => {
             let completeFlag = false;
             state.map(book => {
                 if (book.id === action.book.id) {
-                    book.libraryInfo.numberOfCoppies = action.numberOfCopies;
+                    book.libraryInfo.numberOfCopies = action.numberOfCopies;
                     book.libraryInfo.issuedTo.forEach((user, index) => {
                         if (user.username === action.user.username) {
                             book.libraryInfo.issuedHistory.push({

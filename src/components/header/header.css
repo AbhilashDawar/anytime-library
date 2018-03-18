@@ -2,6 +2,6 @@ AppBar {
   background-color: rebeccapurple;
 }
 
-.appbar {
-  background-color: rebeccapurple;
+.appName {
+  cursor: pointer;
 }
