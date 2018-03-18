@@ -1,4 +1,5 @@
 .searchBar{
+    margin: 0% 1%;
     background-color: white;
     align-items: flex-start;
 }
@@ -9,7 +10,7 @@
 }
 
 .booksDisplayCard{
-    margin: 0% 3%;
+    margin: 1% 3%;
 }
 
 .right{
@@ -27,4 +28,13 @@
 
 .filterPopover{
     width: 500px;
+}
+
+.noissuedBooks{
+    margin: 2%
+}
+
+.searchButton {
+    display: grid;
+    align-content: end;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField/TextField';
 import Snackbar from 'material-ui/Snackbar';
+import Divider from 'material-ui/Divider';
 import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
 import Popup from 'react-popup';
@@ -143,20 +144,27 @@ class Book extends React.Component {
         // this.checkForIssuedBooks();
     }
 
-    showIssuedDetails = () => {
-        if (this.state.bookIssued) {
-            this.props.activeUser.issuedBooks.forEach((book) => {
-                if (book.id === this.props.selectedBook.id) {
-                    return <CardText>
-                        <span>Issued On: {book.dateOfIssue.getDate()}/{book.dateOfIssue.getMonth() + 1}/{book.dateOfIssue.getFullYear()}</span>
-                        <span>Due to Return On: {book.dateOfReturn.getDate()}/{book.dateOfReturn.getMonth() + 1}/{book.dateOfReturn.getFullYear()}</span>
-                    </CardText>
-                }
-            });
+    showIssuedDetails = (bookIssued) => {
+        if (bookIssued) {
+            return { display: 'inline' }
         } else {
-            return <CardText>
-                <span>Book not Issued</span>
-            </CardText>
+            return { display: 'none' }
+        }
+    }
+
+    displayGivenRating = () => {
+        if (this.props.selectedBook.libraryInfo.reviews.length > 0) {
+            return { display: 'inline' }
+        } else {
+            return { display: 'none' }
+        }
+    }
+
+    displayGivenRatingMessage = () => {
+        if (this.props.selectedBook.libraryInfo.reviews.length === 0) {
+            return { display: 'inline' }
+        } else {
+            return { display: 'none' }
         }
     }
 
@@ -244,9 +252,35 @@ class Book extends React.Component {
         });
     }
 
-    print = () => {
-        console.log(this.state);
+    yourRating = () => {
+        if (this.props.selectedBook.libraryInfo.reviews.length > 0) {
+            this.props.selectedBook.libraryInfo.reviews.map((review, index) => {
+                if (review.user.username === this.props.activeUser.username) {
+                    return <span key={index}><span>Your Ratings: {review.rating}</span>
+                        <br />
+                        <span>Your Comments: {review.comments}</span>
+                    </span>
+                }
+            });
+        } else {
+            return <span>
+                You have not yet rated this book.
+            </span>
+        }
     }
+
+    showAuthors = () => {
+        if (this.props.selectedBook.volumeInfo.authors) {
+            return <p>Written By: <br />
+                {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
+                    <span key={index}><span>{author}</span><br /></span>
+                ))}
+            </p>
+        } else {
+            return <p style={{ color: 'red' }}>Author not available
+            </p>
+        }
+    };
 
     render() {
         var linkStyle;
@@ -257,36 +291,103 @@ class Book extends React.Component {
         }
         return (
             <div>
-                <SubmitButton chosenName="PRINT" whenClicked={this.print} />
+                {/* <SubmitButton chosenName="PRINT" whenClicked={this.print} /> */}
                 <Header nameOfUser={this.props.activeUser.givenName} />
                 <Card className="bookViewCard">
-                    <div className="bookImage">
-                        <img src={this.props.selectedBook.volumeInfo.imageLinks.thumbnail} alt={this.props.selectedBook.volumeInfo.title} />
-                        <div>
-                            <SubmitButton chosenName={this.state.buttonName} whenClicked={this.getBook} />
-                            <div style={linkStyle}>
-                                <CancelButton chosenName="Return Book" whenClicked={this.returnBook} />
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div className="row bookImage">
+                                <img src={this.props.selectedBook.volumeInfo.imageLinks.thumbnail} alt={this.props.selectedBook.volumeInfo.title} />
+                            </div>
+                            <div className="row">
+                                <SubmitButton chosenName={this.state.buttonName} whenClicked={this.getBook} />
+                                <div style={linkStyle}>
+                                    <CancelButton chosenName="Return Book" whenClicked={this.returnBook} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <CardTitle title={`ISBN: ${this.props.selectedBook.volumeInfo.industryIdentifiers[1].identifier}`} />
-                        <CardTitle title={this.props.selectedBook.volumeInfo.title} subtitle={<p>Written By: <br />
-                            {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
-                                <span key={index}><span>{author}</span><br /></span>
-                            ))}</p>} />
-                        <div >
-                            {this.showIssuedDetails()}
+                        <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div className="row">
+                                <CardTitle title={`ISBN: ${this.props.selectedBook.volumeInfo.industryIdentifiers[1].identifier}`} />
+                            </div>
+                            <Divider />
+                            <div className="row">
+                                <CardTitle title={this.props.selectedBook.volumeInfo.title} subtitle={this.showAuthors()} />
+                                {/* <CardTitle title={this.props.selectedBook.volumeInfo.title} subtitle={<p>Written By: <br />
+                                    {this.props.selectedBook.volumeInfo.authors.map((author, index) => (
+                                        <span key={index}><span>{author}</span><br /></span>
+                                    ))}</p>} /> */}
+                            </div>
+                            <Divider />
+                            <div className="row">
+                                <div className="row">
+                                    <CardText>
+                                        <span>Average Ratings: {this.props.selectedBook.volumeInfo.averageRating}</span>
+                                        <br />
+                                        <span>Total Ratings: {this.props.selectedBook.volumeInfo.ratingsCount}</span>
+                                    </CardText>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <Rating
+                                        readOnly={true}
+                                        value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
+                                        max={5}
+                                    />
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className="row">
+                                <div className="row">
+                                    <div style={this.displayGivenRating()}>
+                                        <CardText>
+                                            {this.props.selectedBook.libraryInfo.reviews.map((review, index) => {
+                                                if (review.user.username === this.props.activeUser.username) {
+                                                    return <span key={index}><span>Your Ratings: {review.rating}</span>
+                                                        <br />
+                                                        <span>Your Comments: {review.comments}</span>
+                                                    </span>
+                                                }
+                                            })}
+                                        </CardText>
+                                    </div>
+                                    <div style={this.displayGivenRatingMessage()}>
+                                        <CardText>
+                                            <span>
+                                                You have not yet rated this book.
+                                            </span>
+                                        </CardText>
+                                    </div>
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className="row">
+                                <div className="row" style={this.showIssuedDetails(this.state.bookIssued)}>
+                                    {this.props.activeUser.issuedBooks.map((book, index) => {
+                                        if (book.id === this.props.selectedBook.id) {
+                                            return <CardText key={index}>
+                                                <span>Issued On: {book.dateOfIssue.getDate()}/{book.dateOfIssue.getMonth() + 1}/{book.dateOfIssue.getFullYear()}</span>
+                                                <br />
+                                                <span>Due to Return On: {book.dateOfReturn.getDate()}/{book.dateOfReturn.getMonth() + 1}/{book.dateOfReturn.getFullYear()}</span>
+                                            </CardText>
+                                        }
+                                    })}
+                                </div>
+                                <div className="row" style={this.showIssuedDetails(!this.state.bookIssued)}>
+                                    <CardText>
+                                        <span>Book not Issued</span>
+                                    </CardText>
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className="row">
+                                <CardText>
+                                    <b>Description:</b> &nbsp;&nbsp;
+                                    {this.props.selectedBook.volumeInfo.description}
+                                </CardText>
+                            </div>
+                            <Popup />
                         </div>
-                        <Rating
-                            readOnly={true}
-                            value={(this.props.selectedBook.volumeInfo.averageRating % Math.floor(this.props.selectedBook.volumeInfo.averageRating)) >= 0.5 ? Math.ceil(this.props.selectedBook.volumeInfo.averageRating) : Math.floor(this.props.selectedBook.volumeInfo.averageRating)}
-                            max={5}
-                        />
-                        <Popup />
-                        <CardText>
-                            {this.props.selectedBook.volumeInfo.description}
-                        </CardText>
                     </div>
                 </Card>
                 <Snackbar

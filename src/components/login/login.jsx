@@ -10,6 +10,15 @@ import { newUser } from '../../actions/newUser.jsx';
 import { selectBook } from '../../actions/selectBook.jsx';
 import config from '../../config.jsx';
 import './login.css';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import Checkbox from 'material-ui/Checkbox';
+import { grey500, white } from 'material-ui/styles/colors';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
+import Help from 'material-ui/svg-icons/action/help';
+import { Link } from 'react-router-dom';
+// import ThemeDefault from '../theme-default';
 
 class Login extends React.Component {
 
@@ -18,6 +27,68 @@ class Login extends React.Component {
     this.state = {
       username: "",
       password: ""
+    };
+    this.styles = {
+      loginContainer: {
+        minWidth: 320,
+        maxWidth: 400,
+        height: 'auto',
+        position: 'absolute',
+        top: '20%',
+        left: 0,
+        right: 0,
+        margin: 'auto'
+      },
+      paper: {
+        padding: 20,
+        overflow: 'auto'
+      },
+      buttonsDiv: {
+        textAlign: 'center',
+        padding: 10
+      },
+      flatButton: {
+        color: grey500
+      },
+      checkRemember: {
+        style: {
+          float: 'left',
+          maxWidth: 180,
+          paddingTop: 5
+        },
+        labelStyle: {
+          color: grey500
+        },
+        iconStyle: {
+          color: grey500,
+          borderColor: grey500,
+          fill: grey500
+        }
+      },
+      loginBtn: {
+        float: 'right'
+      },
+      btn: {
+        background: '#4f81e9',
+        color: white,
+        padding: 7,
+        borderRadius: 2,
+        margin: 2,
+        fontSize: 13
+      },
+      btnFacebook: {
+        background: '#4f81e9'
+      },
+      btnGoogle: {
+        background: '#e14441'
+      },
+      btnSpan: {
+        marginLeft: 5
+      },
+      mybtn: {
+        font: 'Sans-Sarif',
+        // display: 'none'
+      },
     };
   }
 
@@ -84,6 +155,7 @@ class Login extends React.Component {
   };
 
   loginError = (res) => {
+    alert("Please ensure the Third-Party Cookies are not blocked!");
     console.log(res);
   };
 
@@ -101,17 +173,21 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Card className="card">
-        <CardHeader
-          title={config.appName}
-          className="loginAppName"
-        />
-        <div className="parent">
-          <div className="col-xs-12 col-sm-6 manualLogin">
-            <CardText>
+      <div>
+        <div style={this.styles.loginContainer}>
+
+          <Paper style={this.styles.paper}>
+
+            <form>
+              <div className="row">
+                <div className="loginAppName">
+                  <span>{config.appName}</span>
+                </div>
+              </div>
               <TextField
                 hintText="Username"
                 floatingLabelText="Username"
+                fullWidth={true}
                 value={this.state.username}
                 onChange={this.handleUsernameChange}
               /><br />
@@ -119,27 +195,98 @@ class Login extends React.Component {
                 hintText="Password"
                 floatingLabelText="Password"
                 type="password"
+                fullWidth={true}
                 value={this.state.password}
                 onChange={this.handlePasswordChange}
-              /><br />
-            </CardText>
-            <CardActions>
-              <SubmitButton chosenName="Submit" whenClicked={this.login} />
-              <CancelButton chosenName="Cancel" whenClicked={this.logout} />
-            </CardActions>
-          </div>
-          <div className="socialLogin">
+              />
+              <div>
+                <RaisedButton
+                  label="Login"
+                  primary={true}
+                  style={this.styles.loginBtn}
+                  onClick={this.login}
+                />
+              </div>
+            </form>
+          </Paper>
+
+          <div style={this.styles.buttonsDiv}>
             <GoogleLogin
               clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
-              buttonText="Login With Google"
+              buttonText="Log in with Google"
               onSuccess={this.login}
               onFailure={this.loginError}
               fetchBasicProfile='true'
             />
-            <button onClick={this.loginAsAdmin}>Admin</button>
           </div>
         </div>
-      </Card>
+      </div>
+      // <div>
+      //   <div className="row">
+      //     <div className="col-xs-offset-4 col-xs-4 loginAppName">
+      //       <span>{config.appName}</span>
+      //     </div>
+      //   </div>
+      //   <div className="row">
+      //     <Card className="col-xs-offset-2 col-xs-8">
+      //       {/* <div className="row">
+      //         <div className="col-xs-offset-2 col-xs-8">
+      //           <CardHeader
+      //             title={config.appName}
+      //           // className="loginAppName"
+      //           />
+      //         </div>
+      //       </div> */}
+      //       <div className="row">
+      //         <div className="col-xs-12">
+      //           <CardText>
+      //             <TextField
+      //               hintText="Username"
+      //               floatingLabelText="Username"
+      //               fullWidth={true}
+      //               value={this.state.username}
+      //               onChange={this.handleUsernameChange}
+      //             /><br />
+      //             <TextField
+      //               hintText="Password"
+      //               floatingLabelText="Password"
+      //               type="password"
+      //               fullWidth={true}
+      //               value={this.state.password}
+      //               onChange={this.handlePasswordChange}
+      //             /><br />
+      //           </CardText>
+      //         </div>
+      //       </div>
+      //       <div className="row">
+      //         <div className="col-xs-offset-1">
+      //           {/* <CardActions> */}
+      //           <SubmitButton chosenName="Login" whenClicked={this.login} />
+      //         </div>
+      //         <div className="col-xs-offset-1">
+      //           <GoogleLogin
+      //             clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
+      //             buttonText="Login With Google"
+      //             style={{
+      //               color: 'white',
+      //               padding: '8px',
+      //               borderRadius: '5px',
+      //               margin: 2,
+      //               fontSize: 13,
+      //               background: '#b71c1c',
+      //               marginLeft: 5
+      //             }}
+      //             onSuccess={this.login}
+      //             onFailure={this.loginError}
+      //             fetchBasicProfile='true'
+      //           />
+      //           <button onClick={this.loginAsAdmin}>Admin</button>
+      //           {/* </CardActions> */}
+      //         </div>
+      //       </div>
+      //     </Card>
+      //   </div>
+      // </div >
     );
   }
 }

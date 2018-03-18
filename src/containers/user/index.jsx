@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
+import Paper from 'material-ui/Paper';
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
+
+import config from '../../config.jsx';
 import Header from '../../components/header/header';
 import BookCard from '../../components/bookCard';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import './user.css';
-import config from '../../config.jsx';
 
 class User extends React.Component {
 
@@ -116,6 +118,15 @@ class User extends React.Component {
         });
     }
 
+    showMyBooks = () => {
+        if (this.state.issuedBooks.length === 0) {
+            return <div className="noissuedBooks">No Issued Books</div>
+        }
+        return this.state.issuedBooks.map((book, index) => (
+            <BookCard key={index} selectedBook={book} />
+        ));
+    }
+
     handleFilterClick = (event) => {
         // This prevents ghost click.
         event.preventDefault();
@@ -143,57 +154,65 @@ class User extends React.Component {
         return (
             <div>
                 <Header nameOfUser={this.props.activeUser.givenName} />
-                <div className="searchBar">
-                    <div className="left">
-                        <TextField
-                            hintText="Search for Title/Author"
-                            floatingLabelText="Search"
-                            value={this.state.searchString}
-                            onChange={this.handleSearchTextChange}
-                            multiLine={true}
-                            rows={1}
-                            rowsMax={5}
-                        />
-                        <SubmitButton chosenName="Search" whenClicked={this.search} />
-                    </div>
-                    <div className="right">
-                        <RaisedButton
-                            onClick={this.handleFilterClick}
-                            label="Click me"
-                        />
-                        <Popover
-                            open={this.state.showFilter}
-                            anchorEl={this.state.anchorEl}
-                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            onRequestClose={this.handleFilterClose}
-                        >
-                            <div className="filterPopover">
-                                <div className="filterCheckboxes">
-                                    {config.filters.map((filter) => {
-                                        return <Checkbox
-                                            style={{ width: '50%' }}
-                                            key={filter.key}
-                                            label={filter.name}
-                                            checked={this.state.filters[filter.key]}
-                                            onCheck={this.updateCheck.bind(this, filter.key)}
-                                        />
-                                    })}
+                <Paper className="searchBar">
+                    <div className="row">
+                        <div className="col-xs-12 col-md-6">
+                            <div className="row">
+                                <div className="col-xs-6">
+                                    <TextField
+                                        hintText="Search for Title/Author"
+                                        floatingLabelText="Search"
+                                        value={this.state.searchString}
+                                        onChange={this.handleSearchTextChange}
+                                        multiLine={true}
+                                        rows={1}
+                                        rowsMax={5}
+                                    />
                                 </div>
-                                <div className="filterActions">
-                                    <SubmitButton chosenName="Apply Filter" whenClicked={this.applyFilter} />
+                                <div className="col-xs-6 searchButton">
+                                    <SubmitButton chosenName="Search" whenClicked={this.search} />
                                 </div>
                             </div>
-                        </Popover>
+                        </div>
+                        <div className="col-xs-12 col-md-6">
+                            <div className="col-xs-offset-9 col-xs-3">
+                                <RaisedButton
+                                    onClick={this.handleFilterClick}
+                                    label="Click me"
+                                />
+                                <Popover
+                                    open={this.state.showFilter}
+                                    anchorEl={this.state.anchorEl}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    onRequestClose={this.handleFilterClose}
+                                >
+                                    <div className="filterPopover">
+                                        <div className="filterCheckboxes">
+                                            {config.filters.map((filter) => {
+                                                return <Checkbox
+                                                    style={{ width: '50%' }}
+                                                    key={filter.key}
+                                                    label={filter.name}
+                                                    checked={this.state.filters[filter.key]}
+                                                    onCheck={this.updateCheck.bind(this, filter.key)}
+                                                />
+                                            })}
+                                        </div>
+                                        <div className="filterActions">
+                                            <SubmitButton chosenName="Apply Filter" whenClicked={this.applyFilter} />
+                                        </div>
+                                    </div>
+                                </Popover>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </Paper>
                 <div className="booksDisplayCard">
                     <div className="partitionTitile">
                         <span>Books in your possession</span>
                     </div>
-                    {this.state.issuedBooks.map((book, index) => (
-                        <BookCard key={index} selectedBook={book} />
-                    ))}
+                    {this.showMyBooks()}
                 </div>
                 <div className="booksDisplayCard">
                     <div className="partitionTitile">

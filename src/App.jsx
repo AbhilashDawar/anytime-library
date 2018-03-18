@@ -15,12 +15,13 @@ import User from './containers/user';
 import UserProfile from './containers/userProfile';
 import BookForm from './containers/bookForm';
 import './App.css';
+import themeDefault from './theme-default.jsx';
 
 class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <MuiThemeProvider muiTheme={themeDefault}>
         <BrowserRouter>
           <Switch>
             <Redirect exact from="/" to="/login" />

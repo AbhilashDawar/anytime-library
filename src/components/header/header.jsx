@@ -29,7 +29,7 @@ class Header extends React.Component {
                         onTitleClick={this.goToHome}
                         iconElementLeft={<div />}
                         iconElementRight={this.props.activeUser ? < Logged nameOfUser={this.props.nameOfUser} /> : <FlatButton label="Login" href="/login" />}
-                        style={{ backgroundColor: '#00BCD4', margin: '0% 0% 1% 0%' }}
+                        style={{ margin: '0% 0% 1% 0%' }}
                     />
                 </Paper>
             </div >
