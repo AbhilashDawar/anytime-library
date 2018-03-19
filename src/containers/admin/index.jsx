@@ -85,6 +85,7 @@ class Admin extends React.Component {
         let issuedBooks = 0;
         this.props.books.forEach((book) => {
             totalNumberOfBooks += book.libraryInfo.numberOfCopies;
+            totalNumberOfBooks += book.libraryInfo.issuedTo.length;
             issuedBooks += book.libraryInfo.issuedTo.length;
         });
         this.setState({
