@@ -1,29 +1,28 @@
 import React from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
-import TextField from 'material-ui/TextField/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Popup from 'react-popup';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
-import Header from '../../components/header/header';
-import CancelButton from '../../components/bottons/cancelButton.jsx';
-import SubmitButton from '../../components/bottons/submitButton.jsx';
-import BlueButton from '../../components/bottons/blueButton.jsx';
-import config from '../../config.jsx';
-import './adminBookView.css';
 import {
     Table,
     TableBody,
-    TableFooter,
     TableHeader,
     TableHeaderColumn,
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+
+import Header from '../../components/header/header';
+import CancelButton from '../../components/bottons/cancelButton.jsx';
+import SubmitButton from '../../components/bottons/submitButton.jsx';
+import BlueButton from '../../components/bottons/blueButton.jsx';
 import { deleteBook } from '../../actions/book.jsx';
 import { bookAction } from '../../actions/bookAction.jsx';
+import './adminBookView.css';
 
 class BookAdminView extends React.Component {
 
@@ -33,7 +32,8 @@ class BookAdminView extends React.Component {
             bookInLibrary: false,
             showMessage: false,
             message: "",
-            tableHeight: '150px'
+            tableHeight: '150px',
+            openDialog: false
         };
         this.styles = {
             search: {
@@ -83,27 +83,8 @@ class BookAdminView extends React.Component {
                 message: "Isseud Book cannot be deleted..."
             });
         } else {
-            Popup.create({
-                title: this.props.selectedBook.volumeInfo.title,
-                content: <div>
-                    Are you sure you want to delete the book?
-            </div>,
-                buttons: {
-                    right: [{
-                        text: 'Cancel',
-                        className: 'danger',
-                        action: () => {
-                            Popup.close();
-                        }
-                    }, {
-                        text: 'Delete',
-                        className: 'success',
-                        action: () => {
-                            this.deleteBook();
-                            Popup.close();
-                        }
-                    }]
-                }
+            this.setState({
+                openDialog: true
             });
         }
     };
@@ -121,7 +102,8 @@ class BookAdminView extends React.Component {
         }, 1000);
         this.setState({
             showMessage: true,
-            message: "Deleting Book... Please wait"
+            message: "Deleting Book... Please wait",
+            openDialog: false
         });
 
     }
@@ -178,6 +160,12 @@ class BookAdminView extends React.Component {
         });
     };
 
+    cancelDelete = () => {
+        this.setState({
+            openDialog: false
+        });
+    };
+
     render() {
         var addStyle, deleteStyle;
         if (this.state.bookInLibrary) {
@@ -187,6 +175,19 @@ class BookAdminView extends React.Component {
             addStyle = { display: 'inline' }
             deleteStyle = { display: 'none' }
         }
+        const actions = [
+            <FlatButton
+                className="danger"
+                label="Delete"
+                primary={true}
+                onClick={this.deleteBook}
+            />,
+            <FlatButton
+                label="Cancel"
+                primary={false}
+                onClick={this.cancelDelete}
+            />
+        ];
         return (
             <div>
                 <Header nameOfUser={this.props.activeUser.givenName} />
@@ -245,14 +246,24 @@ class BookAdminView extends React.Component {
                         </div>
                     </div>
                 </Card>
-                <Popup />
+                <Dialog
+                    title={this.props.selectedBook.volumeInfo.title}
+                    actions={actions}
+                    modal={false}
+                    open={this.state.openDialog}
+                    onRequestClose={this.cancelRating}
+                >
+                    <div className="row">
+                        <span>Are you sure you want to delete the book?</span>
+                    </div>
+                </Dialog>
                 <Snackbar
                     open={this.state.showMessage}
                     message={this.state.message}
                     autoHideDuration={3000}
                     onRequestClose={this.handleRequestClose}
                 />
-            </div >
+            </div>
         );
     }
 }

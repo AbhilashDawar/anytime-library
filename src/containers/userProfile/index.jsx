@@ -1,14 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardTitle } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import { ContentAddCircle } from 'material-ui/svg-icons';
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import Header from '../../components/header/header';
-import BookCard from '../../components/bookCard';
-// import CancelButton from '../bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import { profileSave } from '../../actions/updateUser.jsx';
 import './userProfile.css';
@@ -114,7 +112,7 @@ class UserProfile extends React.Component {
                     <div className="row"></div>
                     <div className="row">
                         <div className="col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 center-xs">
-                            <img className="profileImage" src={this.props.activeUser.imageUrl} alt="No Image to show" />
+                            <img className="profileImage" src={this.props.activeUser.imageUrl} alt="Not Available" />
                         </div>
                     </div>
                     <div className="row"></div>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import Paper from 'material-ui/Paper';
-import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
+import Popover from 'material-ui/Popover';
 
 import config from '../../config.jsx';
 import Header from '../../components/header/header';
@@ -25,7 +24,6 @@ class User extends React.Component {
             books: this.props.books,
             issuedBooks: [],
             searchString: "",
-            showFilter: false,
             showRecommendedBooks: false,
             showFilter: false,
             filters: allFilters

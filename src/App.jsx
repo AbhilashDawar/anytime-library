@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+
 import Login from './components/login/login.jsx';
 import Admin from './containers/admin';
 import Book from './containers/book';
@@ -14,8 +10,8 @@ import BookAdminView from './containers/bookAdminView';
 import User from './containers/user';
 import UserProfile from './containers/userProfile';
 import BookForm from './containers/bookForm';
-import './App.css';
 import themeDefault from './theme-default.jsx';
+import './App.css';
 
 class App extends Component {
 

@@ -1,24 +1,16 @@
 import React from 'react';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
 import GoogleLogin from 'react-google-login';
-import CancelButton from '../bottons/cancelButton.jsx';
-import SubmitButton from '../bottons/submitButton.jsx';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import { grey500, white } from 'material-ui/styles/colors';
+
 import { loginUser } from '../../actions/loginUser.jsx';
 import { newUser } from '../../actions/newUser.jsx';
 import { selectBook } from '../../actions/selectBook.jsx';
 import config from '../../config.jsx';
 import './login.css';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import Checkbox from 'material-ui/Checkbox';
-import { grey500, white } from 'material-ui/styles/colors';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import Help from 'material-ui/svg-icons/action/help';
-import { Link } from 'react-router-dom';
-// import ThemeDefault from '../theme-default';
 
 class Login extends React.Component {
 
@@ -222,72 +214,6 @@ class Login extends React.Component {
           </div>
         </div>
       </div>
-      // <div>
-      //   <div className="row">
-      //     <div className="col-xs-offset-4 col-xs-4 loginAppName">
-      //       <span>{config.appName}</span>
-      //     </div>
-      //   </div>
-      //   <div className="row">
-      //     <Card className="col-xs-offset-2 col-xs-8">
-      //       {/* <div className="row">
-      //         <div className="col-xs-offset-2 col-xs-8">
-      //           <CardHeader
-      //             title={config.appName}
-      //           // className="loginAppName"
-      //           />
-      //         </div>
-      //       </div> */}
-      //       <div className="row">
-      //         <div className="col-xs-12">
-      //           <CardText>
-      //             <TextField
-      //               hintText="Username"
-      //               floatingLabelText="Username"
-      //               fullWidth={true}
-      //               value={this.state.username}
-      //               onChange={this.handleUsernameChange}
-      //             /><br />
-      //             <TextField
-      //               hintText="Password"
-      //               floatingLabelText="Password"
-      //               type="password"
-      //               fullWidth={true}
-      //               value={this.state.password}
-      //               onChange={this.handlePasswordChange}
-      //             /><br />
-      //           </CardText>
-      //         </div>
-      //       </div>
-      //       <div className="row">
-      //         <div className="col-xs-offset-1">
-      //           {/* <CardActions> */}
-      //           <SubmitButton chosenName="Login" whenClicked={this.login} />
-      //         </div>
-      //         <div className="col-xs-offset-1">
-      //           <GoogleLogin
-      //             clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
-      //             buttonText="Login With Google"
-      //             style={{
-      //               color: 'white',
-      //               padding: '8px',
-      //               borderRadius: '5px',
-      //               margin: 2,
-      //               fontSize: 13,
-      //               background: '#b71c1c',
-      //               marginLeft: 5
-      //             }}
-      //             onSuccess={this.login}
-      //             onFailure={this.loginError}
-      //             fetchBasicProfile='true'
-      //           />
-      //           <button onClick={this.loginAsAdmin}>Admin</button>
-      //           {/* </CardActions> */}
-      //         </div>
-      //       </div>
-      //     </Card>
-      //   </div>
-      // </div >
     );
   }
 }

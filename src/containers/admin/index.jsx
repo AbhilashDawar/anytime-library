@@ -1,34 +1,28 @@
 import React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
-// import CancelButton from '../bottons/cancelButton.jsx';
-// import SubmitButton from '../bottons/submitButton.jsx';
-import Header from '../../components/header/header';
-import InfoBox from '../../components/infoBox';
-import { cyan600, pink600, purple600, orange600 } from 'material-ui/styles/colors';
-import Assessment from 'material-ui/svg-icons/action/assessment';
-import Face from 'material-ui/svg-icons/action/face';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import { withRouter } from 'react-router-dom';
 import Book from 'material-ui/svg-icons/action/book';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
-import axios from 'axios';
-import './admin.css';
-import BookCard from '../../components/bookCard';
 import Card from 'material-ui/Card';
 import TextField from 'material-ui/TextField/TextField';
-import SubmitButton from '../../components/bottons/submitButton.jsx';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { withRouter } from 'react-router-dom';
-import { selectBook } from '../../actions/selectBook.jsx';
 import {
     Table,
     TableBody,
-    TableFooter,
     TableHeader,
     TableHeaderColumn,
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import { cyan600, pink600, purple600 } from 'material-ui/styles/colors';
+
+import Header from '../../components/header/header';
+import InfoBox from '../../components/infoBox';
+import SubmitButton from '../../components/bottons/submitButton.jsx';
+import { selectBook } from '../../actions/selectBook.jsx';
+import './admin.css';
 
 class Admin extends React.Component {
 

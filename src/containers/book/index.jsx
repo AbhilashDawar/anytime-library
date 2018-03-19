@@ -264,7 +264,7 @@ class Book extends React.Component {
                 primary={false}
                 onClick={this.cancelRating}
             />
-        ]
+        ];
         return (
             <div>
                 {/* <SubmitButton chosenName="PRINT" whenClicked={this.print} /> */}
