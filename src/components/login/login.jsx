@@ -9,6 +9,7 @@ import { grey500, white } from 'material-ui/styles/colors';
 import { loginUser } from '../../actions/loginUser.jsx';
 import { newUser } from '../../actions/newUser.jsx';
 import { selectBook } from '../../actions/selectBook.jsx';
+import background from '../../resources/home.jpg';
 import config from '../../config.jsx';
 import './login.css';
 
@@ -166,7 +167,12 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{
+        backgroundImage: `url("${background}")`,
+        height: '100vh',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover'
+      }}>
         <div style={this.styles.loginContainer}>
 
           <Paper style={this.styles.paper}>
@@ -202,7 +208,9 @@ class Login extends React.Component {
               </div>
             </form>
           </Paper>
-
+          <div className="row"></div>
+          <div className="row"></div>
+          <div className="row"></div>
           <div style={this.styles.buttonsDiv}>
             <GoogleLogin
               clientId="261108976291-6ulai3plser4mfgnsac81s9enkolf6s2.apps.googleusercontent.com"
