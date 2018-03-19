@@ -129,6 +129,7 @@ class BookForm extends React.Component {
             ratingsCount: ratingsCount,
             imageLinks: imageLinks,
             imageLinksAvailable: imageLinksAvailable,
+            // eslint-disable-next-line
             numberOfCopies: parseInt(numberOfCopies),
             authorsValue: authorsValue,
             isbnValue: isbnValue,
@@ -211,6 +212,7 @@ class BookForm extends React.Component {
         // Setting up the book object
         let book = this.props.selectedBook;
         book["libraryInfo"] = {
+            // eslint-disable-next-line
             "numberOfCopies": parseInt(this.state.numberOfCopies),
             "issuedTo": [],
             "issuedHistory": [],

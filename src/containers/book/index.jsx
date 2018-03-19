@@ -218,6 +218,7 @@ class Book extends React.Component {
 
     yourRating = () => {
         if (this.props.selectedBook.libraryInfo.reviews.length > 0) {
+            // eslint-disable-next-line
             this.props.selectedBook.libraryInfo.reviews.map((review, index) => {
                 if (review.user.username === this.props.activeUser.username) {
                     return <span key={index}><span>Your Ratings: {review.rating}</span>

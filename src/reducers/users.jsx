@@ -41,6 +41,7 @@ export default (state = users, action) => {
                 action.payload
             ];
         case names.BOOK_ISSUED:
+            // eslint-disable-next-line
             state.map(user => {
                 if (user.username === action.user.username) {
                     user.issuedBooks.push({
@@ -53,6 +54,7 @@ export default (state = users, action) => {
             })
             return state;
         case names.BOOK_RENEWED:
+            // eslint-disable-next-line
             state.map(user => {
                 if (user.username === action.user.username) {
                     user.issuedBooks.forEach((book) => {
@@ -66,6 +68,7 @@ export default (state = users, action) => {
             return state;
         case names.BOOK_RETURNED:
             let completeFlag = false;
+            // eslint-disable-next-line
             state.map(user => {
                 if (user.username === action.user.username) {
                     user.issuedBooks.forEach((detail, index) => {
@@ -76,15 +79,18 @@ export default (state = users, action) => {
                         }
                     })
                     if (completeFlag) {
+                        // eslint-disable-next-line
                         return;
                     }
                 }
             })
             return state;
         case names.USER_PROFILE_SAVED:
+            // eslint-disable-next-line
             state.map(user => {
                 if (user.username === action.user.username) {
                     user.favoriteGenre = action.user.favoriteGenre;
+                    // eslint-disable-next-line
                     return;
                 }
             });

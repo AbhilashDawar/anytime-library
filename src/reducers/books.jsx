@@ -9,17 +9,21 @@ export default (state = books, action) => {
                 action.book
             ];
         case names.BOOK_DELETED:
+            // eslint-disable-next-line
             state.map((book, index) => {
                 if (book.id === action.book.id) {
                     state.splice(index, 1);
+                    // eslint-disable-next-line
                     return;
                 }
             });
             return state;
         case names.BOOK_UPDATED:
+            // eslint-disable-next-line
             state.map((book, index) => {
                 if (book.id === action.book.id) {
                     state.splice(index, 1);
+                    // eslint-disable-next-line
                     return;
                 }
             });
@@ -28,6 +32,7 @@ export default (state = books, action) => {
                 action.book
             ];
         case names.BOOK_AVAILABILITY_UPDATE:
+            // eslint-disable-next-line
             state.map(book => {
                 if (book.id === action.book.id) {
                     book.libraryInfo.numberOfCopies = action.numberOfCopies;
@@ -40,6 +45,7 @@ export default (state = books, action) => {
             })
             return state;
         case names.BOOK_RENEWED:
+            // eslint-disable-next-line
             state.map(book => {
                 if (book.id === action.book.id) {
                     book.libraryInfo.issuedTo.forEach((detail) => {
@@ -53,6 +59,7 @@ export default (state = books, action) => {
             return state;
         case names.BOOK_RETURN_UPDATE:
             let completeFlag = false;
+            // eslint-disable-next-line
             state.map(book => {
                 if (book.id === action.book.id) {
                     book.libraryInfo.numberOfCopies = action.numberOfCopies;
@@ -70,16 +77,18 @@ export default (state = books, action) => {
                     });
                 }
                 if (completeFlag) {
+                    // eslint-disable-next-line
                     return;
                 }
             })
             return state;
         case names.BOOK_REVIEWED:
+            // eslint-disable-next-line
             state.map(book => {
                 if (book.id === action.book.id) {
                     let actionComplete = false;
-                    book.libraryInfo.reviews.forEach((review,index)=>{
-                        if(!actionComplete && review.user.username===action.user.username){
+                    book.libraryInfo.reviews.forEach((review, index) => {
+                        if (!actionComplete && review.user.username === action.user.username) {
                             book.libraryInfo.reviews.splice(index, 1);
                             return;
                         }
