@@ -5,7 +5,8 @@ import Snackbar from 'material-ui/Snackbar';
 import Divider from 'material-ui/Divider';
 import { Rating } from 'material-ui-rating';
 import { connect } from 'react-redux';
-import Popup from 'react-popup';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
@@ -23,7 +24,8 @@ class Book extends React.Component {
             showMessage: false,
             message: "",
             reviewComment: "",
-            reviewRating: 0
+            reviewRating: 0,
+            openDialog: false
         };
     }
 
@@ -178,16 +180,12 @@ class Book extends React.Component {
     handleCommentChange = (event) => {
         this.setState({
             reviewComment: event.target.value
-        }, () => {
-            console.log("C")
         });
     }
 
     handleRatingChange = (rating) => {
         this.setState({
             reviewRating: rating
-        }, () => {
-            console.log("R")
         });
     }
 
@@ -201,55 +199,21 @@ class Book extends React.Component {
             reviewComment: "",
             reviewRating: 0,
             showMessage: true,
-            message: "Book review saved successfully!!!"
+            message: "Book review saved successfully!!!",
+            openDialog: false
         });
     }
 
     cancelRating = () => {
         this.setState({
             reviewComment: "",
-            reviewRating: 0
+            reviewRating: 0,
+            openDialog: false
         });
     }
 
     review = () => {
-        Popup.create({
-            title: this.props.selectedBook.volumeInfo.title,
-            content: <div>
-                <TextField
-                    hintText="Comments"
-                    floatingLabelText="Comments (optional)"
-                    value={this.state.reviewComment}
-                    onChange={this.handleCommentChange}
-                    multiLine={true}
-                    rows={1}
-                    rowsMax={5}
-                />
-                <br />
-                <Rating
-                    value={this.state.reviewRating}
-                    max={5}
-                    onChange={this.handleRatingChange}
-                />
-            </div>,
-            buttons: {
-                right: [{
-                    text: 'Cancel',
-                    className: 'danger',
-                    action: () => {
-                        this.cancelRating();
-                        Popup.close();
-                    }
-                }, {
-                    text: 'Save',
-                    className: 'success',
-                    action: () => {
-                        this.saveRating();
-                        Popup.close();
-                    }
-                }]
-            }
-        });
+        this.setState({ openDialog: true });
     }
 
     yourRating = () => {
@@ -289,6 +253,18 @@ class Book extends React.Component {
         } else {
             linkStyle = { display: 'none' }
         }
+        let actions = [
+            <FlatButton
+                label="Save"
+                primary={true}
+                onClick={this.saveRating}
+            />,
+            <FlatButton
+                label="Cancel"
+                primary={false}
+                onClick={this.cancelRating}
+            />
+        ]
         return (
             <div>
                 {/* <SubmitButton chosenName="PRINT" whenClicked={this.print} /> */}
@@ -322,9 +298,9 @@ class Book extends React.Component {
                             <div className="row">
                                 <div className="row">
                                     <CardText>
-                                        <span>Average Ratings: {this.props.selectedBook.volumeInfo.averageRating}</span>
+                                        <span><b>Average Ratings:</b> {this.props.selectedBook.volumeInfo.averageRating}</span>
                                         <br />
-                                        <span>Total Ratings: {this.props.selectedBook.volumeInfo.ratingsCount}</span>
+                                        <span><b>Total Ratings:</b> {this.props.selectedBook.volumeInfo.ratingsCount}</span>
                                     </CardText>
                                 </div>
                                 <br />
@@ -343,9 +319,9 @@ class Book extends React.Component {
                                         <CardText>
                                             {this.props.selectedBook.libraryInfo.reviews.map((review, index) => {
                                                 if (review.user.username === this.props.activeUser.username) {
-                                                    return <span key={index}><span>Your Ratings: {review.rating}</span>
+                                                    return <span key={index}><span><b>Your Ratings:</b> {review.rating}</span>
                                                         <br />
-                                                        <span>Your Comments: {review.comments}</span>
+                                                        <span><b>Your Comments:</b> {review.comments}</span>
                                                     </span>
                                                 }
                                             })}
@@ -366,16 +342,16 @@ class Book extends React.Component {
                                     {this.props.activeUser.issuedBooks.map((book, index) => {
                                         if (book.id === this.props.selectedBook.id) {
                                             return <CardText key={index}>
-                                                <span>Issued On: {book.dateOfIssue.getDate()}/{book.dateOfIssue.getMonth() + 1}/{book.dateOfIssue.getFullYear()}</span>
+                                                <span><b>Issued On:</b> {book.dateOfIssue.getDate()}/{book.dateOfIssue.getMonth() + 1}/{book.dateOfIssue.getFullYear()}</span>
                                                 <br />
-                                                <span>Due to Return On: {book.dateOfReturn.getDate()}/{book.dateOfReturn.getMonth() + 1}/{book.dateOfReturn.getFullYear()}</span>
+                                                <span><b>Due to Return On:</b> {book.dateOfReturn.getDate()}/{book.dateOfReturn.getMonth() + 1}/{book.dateOfReturn.getFullYear()}</span>
                                             </CardText>
                                         }
                                     })}
                                 </div>
                                 <div className="row" style={this.showIssuedDetails(!this.state.bookIssued)}>
                                     <CardText>
-                                        <span>Book not Issued</span>
+                                        <span><b>Book not Issued</b></span>
                                     </CardText>
                                 </div>
                             </div>
@@ -386,10 +362,37 @@ class Book extends React.Component {
                                     {this.props.selectedBook.volumeInfo.description}
                                 </CardText>
                             </div>
-                            <Popup />
                         </div>
                     </div>
                 </Card>
+                <Dialog
+                    title={this.props.selectedBook.volumeInfo.title}
+                    actions={actions}
+                    modal={false}
+                    open={this.state.openDialog}
+                    onRequestClose={this.cancelRating}
+                >
+                    <div className="row">
+                        <TextField
+                            hintText="Comments"
+                            floatingLabelText="Comments (optional)"
+                            value={this.state.reviewComment}
+                            onChange={this.handleCommentChange}
+                            multiLine={true}
+                            fullWidth={true}
+                            rows={1}
+                            rowsMax={5}
+                        />
+                    </div>
+                    <div className="row">
+                        Please rate the book:
+                        <Rating
+                            value={this.state.reviewRating}
+                            max={5}
+                            onChange={this.handleRatingChange}
+                        />
+                    </div>
+                </Dialog>
                 <Snackbar
                     open={this.state.showMessage}
                     message={this.state.message}

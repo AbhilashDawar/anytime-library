@@ -239,7 +239,7 @@ class Admin extends React.Component {
                     <TableHeaderColumn style={this.styles.normal.Title} tooltip="Title">Title</TableHeaderColumn>
                     <TableHeaderColumn style={this.styles.normal.Total} tooltip="Total Copies">Total Copies</TableHeaderColumn>
                     <TableHeaderColumn style={this.styles.normal.Number} tooltip="Number of Copies Issued">Number of Copies Issued</TableHeaderColumn>
-                    <TableHeaderColumn style={this.styles.normal.Issued} tooltip="Issued on">Issued to</TableHeaderColumn>
+                    <TableHeaderColumn style={this.styles.normal.Issued} tooltip="Issued to">Issued to</TableHeaderColumn>
                     <TableHeaderColumn style={this.styles.normal.Date} tooltip="Date Issued">Date Issued</TableHeaderColumn>
                     <TableHeaderColumn style={this.styles.normal.Expected} tooltip="Expected Date of Return">Expected Date of Return</TableHeaderColumn>
                 </TableRow>
@@ -266,13 +266,22 @@ class Admin extends React.Component {
                     <TableRowColumn style={this.styles.normal.Total}>{book.libraryInfo.numberOfCopies + book.libraryInfo.issuedTo.length}</TableRowColumn>
                     <TableRowColumn style={this.styles.normal.Number}>{book.libraryInfo.issuedTo.length}</TableRowColumn>
                     <TableRowColumn style={this.styles.normal.Issued}>{book.libraryInfo.issuedTo.map((detail, index) => (
-                        <span key={index}>{detail.user.username}</span>
+                        <span key={index}>
+                            <span>{detail.user.username}</span>
+                            <br />
+                        </span>
                     ))}</TableRowColumn>
                     <TableRowColumn style={this.styles.normal.Date}>{book.libraryInfo.issuedTo.map((detail, index) => (
-                        <span key={index}>{detail.dateOfIssue.getDate()}/{detail.dateOfIssue.getMonth() + 1}/{detail.dateOfIssue.getFullYear()}</span>
+                        <span key={index}>
+                            <span>{detail.dateOfIssue.getDate()}/{detail.dateOfIssue.getMonth() + 1}/{detail.dateOfIssue.getFullYear()}</span>
+                            <br />
+                        </span>
                     ))}</TableRowColumn>
                     <TableRowColumn style={this.styles.normal.Expected}>{book.libraryInfo.issuedTo.map((detail, index) => (
-                        <span key={index}>{detail.expectedReturnDate.getDate()}/{detail.expectedReturnDate.getMonth() + 1}/{detail.expectedReturnDate.getFullYear()}</span>
+                        <span key={index}>
+                            <span>{detail.expectedReturnDate.getDate()}/{detail.expectedReturnDate.getMonth() + 1}/{detail.expectedReturnDate.getFullYear()}</span>
+                            <br />
+                        </span>
                     ))}</TableRowColumn>
                 </TableRow>
             ));

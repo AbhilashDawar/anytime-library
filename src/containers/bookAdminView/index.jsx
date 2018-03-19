@@ -218,9 +218,9 @@ class BookAdminView extends React.Component {
                             <div className="row">
                                 <div className="row">
                                     <CardText>
-                                        <span>Average Ratings: {this.props.selectedBook.volumeInfo.averageRating}</span>
+                                        <span><b>Average Ratings:</b> {this.props.selectedBook.volumeInfo.averageRating}</span>
                                         <br />
-                                        <span>Total Ratings: {this.props.selectedBook.volumeInfo.ratingsCount}</span>
+                                        <span><b>Total Ratings:</b> {this.props.selectedBook.volumeInfo.ratingsCount}</span>
                                     </CardText>
                                 </div>
                                 <br />
@@ -235,6 +235,7 @@ class BookAdminView extends React.Component {
                             <Divider />
                             <div className="row">
                                 <CardText>
+                                    <b>Description:</b> &nbsp;&nbsp;
                                     {this.props.selectedBook.volumeInfo.description}
                                 </CardText>
                             </div>

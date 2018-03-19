@@ -12,6 +12,7 @@ import Divider from 'material-ui/Divider';
 import Snackbar from 'material-ui/Snackbar';
 
 import PageBase from '../../components/pageBase';
+import Header from '../../components/header/header';
 import CancelButton from '../../components/bottons/cancelButton.jsx';
 import SubmitButton from '../../components/bottons/submitButton.jsx';
 import { addBook, updateBook } from '../../actions/book.jsx';
@@ -281,6 +282,7 @@ class BookForm extends React.Component {
 
     render() {
         return <div>
+            <Header nameOfUser={this.props.activeUser.givenName} />
             <PageBase title={this.state.pageTitle}>
                 <form>
                     <TextField

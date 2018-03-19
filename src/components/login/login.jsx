@@ -134,7 +134,6 @@ class Login extends React.Component {
               this.props.loginUser(user);
               return;
             } else if (user.type === "USER") {
-              alert("Routing to USER Page...");
               this.props.loginUser(user);
               this.props.history.push("/user");
               return;
@@ -155,7 +154,9 @@ class Login extends React.Component {
   };
 
   loginError = (res) => {
-    alert("Please ensure you are connected to Internet and the Third-Party Cookies are not blocked!");
+    if (res.error === "idpiframe_initialization_failed") {
+      alert("Looks like Third-Party Cookies Option is disabled in your browser. Please ensure the Third-Party Cookies are not blocked in your browser settings to login via Google+.");
+    }
     console.log(res);
   };
 

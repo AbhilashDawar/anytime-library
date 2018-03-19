@@ -77,6 +77,13 @@ export default (state = books, action) => {
         case names.BOOK_REVIEWED:
             state.map(book => {
                 if (book.id === action.book.id) {
+                    let actionComplete = false;
+                    book.libraryInfo.reviews.forEach((review,index)=>{
+                        if(!actionComplete && review.user.username===action.user.username){
+                            book.libraryInfo.reviews.splice(index, 1);
+                            return;
+                        }
+                    });
                     book.libraryInfo.reviews.push({
                         user: action.user,
                         comments: action.review.comments,

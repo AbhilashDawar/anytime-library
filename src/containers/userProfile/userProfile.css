@@ -9,3 +9,13 @@
 .hideSavebutton{
     display: none
 }
+
+.profileCard{
+    margin: 2%;
+}
+
+.profileImage{
+    border-radius: 50%;
+    width: 40%;
+    height: 100%;
+}

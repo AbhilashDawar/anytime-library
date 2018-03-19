@@ -5,6 +5,7 @@ import Chip from 'material-ui/Chip';
 import { ContentAddCircle } from 'material-ui/svg-icons';
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
 import Header from '../../components/header/header';
 import BookCard from '../../components/bookCard';
 // import CancelButton from '../bottons/cancelButton.jsx';
@@ -109,13 +110,34 @@ class UserProfile extends React.Component {
         return (
             <div>
                 <Header nameOfUser={this.props.activeUser.givenName} />
-                <Card >
-                    <img src={this.props.activeUser.imageUrl} alt="" />
-                    <CardTitle title={`${this.props.activeUser.givenName} ${this.props.activeUser.familyName}`} />
-                    <div style={this.styles.wrapper}>
-                        {this.state.chipData.map(this.renderChip, this)}
+                <Card className="profileCard">
+                    <div className="row"></div>
+                    <div className="row">
+                        <div className="col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 center-xs">
+                            <img className="profileImage" src={this.props.activeUser.imageUrl} alt="No Image to show" />
+                        </div>
                     </div>
-                    <div>
+                    <div className="row"></div>
+                    <div className="row">
+                        <div className="col-xs-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 center-xs">
+                            <CardTitle title={`${this.props.activeUser.givenName} ${this.props.activeUser.familyName}`} />
+                        </div>
+                    </div>
+                    <div className="row"></div>
+                    <Divider />
+                    <div className="row center-xs">
+                        <div className="row center-xs">
+                            Favorite Genre:
+                            </div>
+                        <div className="row center-xs">
+                            <div style={this.styles.wrapper}>
+                                {this.state.chipData.map(this.renderChip, this)}
+                            </div>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className="row center-xs">
+                        <div className="col-xs-12 center-xs">
                         <TextField
                             hintText="Genre"
                             floatingLabelText="Genre"
@@ -123,8 +145,15 @@ class UserProfile extends React.Component {
                             onChange={this.handleGenreChange}
                         />
                         <ContentAddCircle className="addGenre" onClick={this.addGenre} />
+                        </div>
                     </div>
-                    <SubmitButton chosenName="Save Profile" whenClicked={this.saveProfile} />
+                    <div className="row"></div>
+                    <Divider />
+                    <div className="row center-xs">
+                        <div className="col-xs-12 center-xs">
+                            <SubmitButton chosenName="Save Profile" whenClicked={this.saveProfile} />
+                        </div>
+                    </div>
                 </Card>
                 <Snackbar
                     open={this.state.showMessage}

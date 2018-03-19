@@ -15,10 +15,10 @@ let users = [
         type: "USER",
         givenName: "Test",
         familyName: "User",
-        imageUrl: "",
+        imageUrl: "https://image.flaticon.com/icons/svg/16/16480.svg",
         issuedBooks: [],
         favoriteGenre: [],
-        isGoogleUser: true
+        isGoogleUser: false
     },
     {
         username: "user",
@@ -26,10 +26,10 @@ let users = [
         type: "USER",
         givenName: "Test",
         familyName: "User 2",
-        imageUrl: "",
+        imageUrl: "https://image.flaticon.com/icons/svg/16/16480.svg",
         issuedBooks: [],
         favoriteGenre: [],
-        isGoogleUser: true
+        isGoogleUser: false
     }
 ];
 

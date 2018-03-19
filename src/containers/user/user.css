@@ -42,3 +42,7 @@
 .searchBarButtons {
     display: flex;
 }
+
+.RecBooks:hover{
+cursor: pointer;
+}

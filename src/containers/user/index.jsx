@@ -182,18 +182,28 @@ class User extends React.Component {
     }
 
     toggleShowRecommendedBooks = () => {
-        console.log("asdhkjg")
         this.setState({
             showRecommendedBooks: !this.state.showRecommendedBooks
         });
     }
 
+    toggleShowMyBooks = () => {
+        this.setState({
+            showMyBooks: !this.state.showMyBooks
+        });
+    }
+
     render() {
-        let recommendedBooksStyle;
+        let recommendedBooksStyle, myBooksStyle;
         if (this.state.showRecommendedBooks) {
-            recommendedBooksStyle = { display: 'inline' }
+            recommendedBooksStyle = {}
         } else {
             recommendedBooksStyle = { display: 'none' }
+        }
+        if (this.state.showMyBooks) {
+            myBooksStyle = {}
+        } else {
+            myBooksStyle = { display: 'none' }
         }
         return (
             <div>
@@ -247,24 +257,26 @@ class User extends React.Component {
                     </div>
                 </Paper>
                 <div className="booksDisplayCard">
-                    <div className="partitionTitile">
+                    <div onClick={this.toggleShowMyBooks} className="partitionTitile RecBooks">
                         <span>Books in your possession</span>
                     </div>
-                    <div className="row">
+                    <div className="row" style={myBooksStyle}>
                         {this.showMyBooks()}
                     </div>
                 </div>
                 <div className="booksDisplayCard">
                     <div className="partitionTitile">
-                        <div onClick={this.toggleShowRecommendedBooks}><span>Recommended Books</span></div>
+                        <div onClick={this.toggleShowRecommendedBooks} className="RecBooks">
+                            <span>Recommended Books</span>
+                        </div>
                     </div>
-                    <div className="row">
+                    <div className="row" style={recommendedBooksStyle}>
                         {this.showFavBooks()}
                     </div>
                 </div>
                 <div className="booksDisplayCard">
                     <div className="partitionTitile">
-                        <span>All Books</span>
+                        <span>All Books / Searched Books</span>
                     </div>
                     <div className="row">
                         {this.state.books.map((book, index) => (
