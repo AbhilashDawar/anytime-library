@@ -324,7 +324,7 @@ class Book extends React.Component {
                                                         <br />
                                                         <span><b>Your Comments:</b> {review.comments}</span>
                                                     </span>
-                                                }
+                                                } else return <span></span>;
                                             })}
                                         </CardText>
                                     </div>
@@ -347,7 +347,7 @@ class Book extends React.Component {
                                                 <br />
                                                 <span><b>Due to Return On:</b> {book.dateOfReturn.getDate()}/{book.dateOfReturn.getMonth() + 1}/{book.dateOfReturn.getFullYear()}</span>
                                             </CardText>
-                                        }
+                                        } else return <span></span>;
                                     })}
                                 </div>
                                 <div className="row" style={this.showIssuedDetails(!this.state.bookIssued)}>
