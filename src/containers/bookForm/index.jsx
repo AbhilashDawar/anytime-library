@@ -45,6 +45,7 @@ class BookForm extends React.Component {
             numberOfCopies = 0;
         if (this.props.selectedBook.libraryInfo) {
             numberOfCopies = this.props.selectedBook.libraryInfo.numberOfCopies;
+            numberOfCopies += this.props.selectedBook.libraryInfo.issuedTo.length;
         }
         if (this.props.selectedBook.volumeInfo) {
             if (this.props.selectedBook.volumeInfo.title) {
@@ -211,13 +212,6 @@ class BookForm extends React.Component {
     action = () => {
         // Setting up the book object
         let book = this.props.selectedBook;
-        book["libraryInfo"] = {
-            // eslint-disable-next-line
-            "numberOfCopies": parseInt(this.state.numberOfCopies),
-            "issuedTo": [],
-            "issuedHistory": [],
-            "reviews": []
-        };
         book.volumeInfo.title = this.state.title;
         let authors = this.state.authorsValue.split(',');
         book.volumeInfo.authors = authors;
@@ -234,6 +228,13 @@ class BookForm extends React.Component {
 
         // Calling the actions
         if (this.props.addingBook) {
+            book["libraryInfo"] = {
+                // eslint-disable-next-line
+                "numberOfCopies": parseInt(this.state.numberOfCopies),
+                "issuedTo": [],
+                "issuedHistory": [],
+                "reviews": []
+            };
             this.props.addBook(book);
             this.setState({
                 showMessage: true,
@@ -249,6 +250,8 @@ class BookForm extends React.Component {
                 });
             }, 1000);
         } else {
+            // eslint-disable-next-line
+            book.libraryInfo.numberOfCopies = parseInt(this.state.numberOfCopies);
             this.props.updateBook(book);
             this.setState({
                 showMessage: true,
