@@ -322,7 +322,7 @@ class Admin extends React.Component {
                             <InfoBox
                                 Icon={LibraryBooks}
                                 color={pink600}
-                                title="Different Books"
+                                title="Distinct Books"
                                 value={this.state.differentBooks}
                             />
                         </div>
