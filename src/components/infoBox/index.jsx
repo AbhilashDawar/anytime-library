@@ -2,6 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import { white, grey800 } from 'material-ui/styles/colors';
 import { typography } from 'material-ui/styles';
+import './infoBox.css';
 
 class InfoBox extends React.Component {
 
@@ -42,7 +43,7 @@ class InfoBox extends React.Component {
         };
 
         return (
-            <Paper>
+            <Paper className="infoBox">
                 <span style={styles.iconSpan}>
                     <Icon color={white}
                         style={styles.icon}

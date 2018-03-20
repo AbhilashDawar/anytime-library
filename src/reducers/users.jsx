@@ -10,11 +10,11 @@ let users = [
         isGoogleUser: true
     },
     {
-        username: "test",
-        password: "test",
+        username: "testUser",
+        password: "testUser",
         type: "USER",
-        givenName: "Test",
-        familyName: "User",
+        givenName: "Test User",
+        familyName: "1",
         imageUrl: "https://image.flaticon.com/icons/svg/16/16480.svg",
         issuedBooks: [],
         favoriteGenre: [],
